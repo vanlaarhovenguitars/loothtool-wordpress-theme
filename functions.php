@@ -381,3 +381,124 @@ function lt_mobile_override_css() {
 }
 add_action( 'wp_footer', 'lt_mobile_override_css', 9999 );
 
+// ============================================================
+//  VENDOR BRANDING — dashboard fields + AJAX save
+// ============================================================
+
+/**
+ * Render the "Loothtool Branding" section in Dokan vendor settings (store tab).
+ */
+function lt_render_vendor_branding_section( $query_vars ) {
+	if ( empty( $query_vars['settings'] ) || $query_vars['settings'] !== 'store' ) {
+		return;
+	}
+
+	$vendor_id = get_current_user_id();
+	$bio       = get_user_meta( $vendor_id, '_lt_vendor_bio', true );
+	$color     = get_user_meta( $vendor_id, '_lt_vendor_color', true ) ?: '#a42325';
+	$youtube   = get_user_meta( $vendor_id, '_lt_vendor_youtube', true );
+	$nonce     = wp_create_nonce( 'lt_vendor_branding' );
+	?>
+	<div class="lt-branding-section" id="lt-branding-section">
+		<h2 class="lt-branding-heading">Loothtool Store Branding</h2>
+		<p class="lt-branding-desc">Customize how your shop page looks to buyers.</p>
+
+		<form id="lt-branding-form" method="post">
+			<input type="hidden" name="lt_branding_nonce" value="<?php echo esc_attr( $nonce ); ?>">
+
+			<!-- About / Bio -->
+			<div class="lt-branding-field">
+				<label for="lt_vendor_bio">About Your Shop</label>
+				<textarea id="lt_vendor_bio" name="lt_vendor_bio" rows="4"
+				          placeholder="Tell buyers who you are, your experience, what you sell…"><?php echo esc_textarea( $bio ); ?></textarea>
+			</div>
+
+			<!-- Brand Colour -->
+			<div class="lt-branding-field">
+				<label for="lt_vendor_color">Brand Color</label>
+				<div class="lt-color-row">
+					<input type="color" id="lt_vendor_color" name="lt_vendor_color"
+					       value="<?php echo esc_attr( $color ); ?>">
+					<span class="lt-color-preview" style="background:<?php echo esc_attr( $color ); ?>"></span>
+					<span class="lt-color-hint">Shows as the banner on your shop page</span>
+				</div>
+			</div>
+
+			<!-- YouTube -->
+			<div class="lt-branding-field">
+				<label for="lt_vendor_youtube">YouTube Video URL</label>
+				<input type="url" id="lt_vendor_youtube" name="lt_vendor_youtube"
+				       value="<?php echo esc_attr( $youtube ); ?>"
+				       placeholder="https://www.youtube.com/watch?v=…">
+				<span class="lt-field-hint">Embed a demo or intro video on your shop page (optional)</span>
+			</div>
+
+			<button type="submit" class="lt-branding-save dokan-btn dokan-btn-theme">Save Branding</button>
+			<span class="lt-branding-msg" id="lt-branding-msg"></span>
+		</form>
+	</div>
+
+	<script>
+	(function(){
+		// Live color preview
+		var colorInput = document.getElementById('lt_vendor_color');
+		var preview    = document.querySelector('.lt-color-preview');
+		if(colorInput && preview){
+			colorInput.addEventListener('input', function(){
+				preview.style.background = this.value;
+			});
+		}
+
+		// AJAX submit
+		var form = document.getElementById('lt-branding-form');
+		if(!form) return;
+		form.addEventListener('submit', function(e){
+			e.preventDefault();
+			var msg  = document.getElementById('lt-branding-msg');
+			var data = new FormData(form);
+			data.append('action', 'lt_save_vendor_branding');
+			msg.textContent = 'Saving…';
+			fetch('<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>', {
+				method: 'POST',
+				body: data
+			}).then(function(r){ return r.json(); }).then(function(res){
+				msg.textContent = res.success ? 'Saved!' : (res.data || 'Error saving.');
+				msg.style.color = res.success ? 'green' : 'red';
+			}).catch(function(){
+				msg.textContent = 'Network error.';
+				msg.style.color = 'red';
+			});
+		});
+	})();
+	</script>
+	<?php
+}
+add_action( 'dokan_render_settings_content', 'lt_render_vendor_branding_section', 20 );
+
+/**
+ * AJAX handler — save vendor branding meta.
+ */
+function lt_save_vendor_branding() {
+	if ( ! is_user_logged_in() ) {
+		wp_send_json_error( 'Not logged in.' );
+	}
+
+	if ( ! isset( $_POST['lt_branding_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['lt_branding_nonce'] ) ), 'lt_vendor_branding' ) ) {
+		wp_send_json_error( 'Security check failed.' );
+	}
+
+	$vendor_id = get_current_user_id();
+
+	update_user_meta( $vendor_id, '_lt_vendor_bio',     sanitize_textarea_field( wp_unslash( $_POST['lt_vendor_bio'] ?? '' ) ) );
+	update_user_meta( $vendor_id, '_lt_vendor_youtube', esc_url_raw( wp_unslash( $_POST['lt_vendor_youtube'] ?? '' ) ) );
+
+	// Validate hex color
+	$color = sanitize_hex_color( wp_unslash( $_POST['lt_vendor_color'] ?? '' ) );
+	if ( $color ) {
+		update_user_meta( $vendor_id, '_lt_vendor_color', $color );
+	}
+
+	wp_send_json_success( 'Branding saved.' );
+}
+add_action( 'wp_ajax_lt_save_vendor_branding', 'lt_save_vendor_branding' );
+
