@@ -1,0 +1,460 @@
+/*
+Theme Name: Hello Elementor Child
+Theme URI: https://github.com/elementor/hello-theme-child/
+Description: Hello Elementor Child is a child theme of Hello Elementor, created by Elementor team
+Author: Elementor Team
+Author URI: https://elementor.com/
+Template: hello-elementor
+Version: 2.0.0
+Text Domain: hello-elementor-child
+License: GNU General Public License v3 or later.
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Tags: flexible-header, custom-colors, custom-menu, custom-logo, editor-style, featured-images, rtl-language-support, threaded-comments, translation-ready
+*/
+
+/* ============================================================
+   LOOTHTOOL DESIGN SYSTEM
+   Ported from Shopify theme: Inter body, Barlow Condensed headings,
+   crimson red accent (#a42325), black/white, zero border-radius.
+   ============================================================ */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
+
+/* ── CSS Variables ── */
+:root {
+  --lt-red:          #a42325;
+  --lt-red-dark:     #780406;
+  --lt-black:        #000000;
+  --lt-white:        #ffffff;
+  --lt-gray-light:   #f1f1f1;
+  --lt-gray-border:  #e6e6e6;
+  --lt-gray-hover:   #f5f5f5;
+  --lt-text:         #000000;
+  --lt-text-muted:   rgba(0,0,0,0.55);
+  --lt-font-body:    'Inter', sans-serif;
+  --lt-font-heading: 'Barlow Condensed', sans-serif;
+  --lt-radius:       0;
+  --lt-transition:   0.25s ease-out;
+}
+
+/* ── Base ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--lt-font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--lt-text);
+  background: var(--lt-white);
+  margin: 0;
+}
+
+img, picture, video { display: block; max-width: 100%; height: auto; }
+
+/* ── Typography ── */
+h1, h2, h3, h4, h5, h6,
+.elementor-heading-title,
+.woocommerce-loop-product__title,
+.entry-title,
+.page-title,
+.site-title {
+  font-family: var(--lt-font-heading) !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--lt-red);
+  line-height: 1.1;
+  margin: 0 0 0.5em;
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.8rem); }
+h3 { font-size: clamp(1.3rem, 2.5vw, 2rem); }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.1rem; }
+h6 { font-size: 1rem; }
+
+p { margin: 0 0 1em; }
+
+a {
+  color: var(--lt-red);
+  text-decoration: none;
+  transition: color var(--lt-transition);
+}
+a:hover { color: var(--lt-red-dark); }
+
+/* ── Site Header ── */
+.site-header,
+#site-header,
+.elementor-location-header {
+  background: var(--lt-white) !important;
+  border-bottom: 1px solid var(--lt-gray-border);
+}
+
+/* ── Navigation ── */
+.elementor-nav-menu a,
+.main-navigation a,
+nav a {
+  font-family: var(--lt-font-heading) !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  color: var(--lt-black) !important;
+  transition: color var(--lt-transition);
+}
+
+.elementor-nav-menu a:hover,
+.main-navigation a:hover,
+nav a:hover {
+  color: var(--lt-red) !important;
+}
+
+/* ── Buttons ── */
+button,
+.button,
+input[type="submit"],
+input[type="button"],
+.wp-element-button,
+.elementor-button,
+.woocommerce a.button,
+.woocommerce button.button,
+.woocommerce input.button,
+.woocommerce #respond input#submit,
+.checkout-button,
+.single_add_to_cart_button,
+.dokan-btn {
+  font-family: var(--lt-font-heading) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  border-radius: 0 !important;
+  background-color: var(--lt-red) !important;
+  color: var(--lt-white) !important;
+  border: 1px solid var(--lt-red) !important;
+  padding: 10px 20px !important;
+  cursor: pointer;
+  transition: background-color var(--lt-transition), border-color var(--lt-transition) !important;
+  font-size: 0.85rem !important;
+  display: inline-block;
+}
+
+button:hover,
+.button:hover,
+input[type="submit"]:hover,
+.wp-element-button:hover,
+.elementor-button:hover,
+.woocommerce a.button:hover,
+.woocommerce button.button:hover,
+.woocommerce #respond input#submit:hover,
+.checkout-button:hover,
+.single_add_to_cart_button:hover,
+.dokan-btn:hover {
+  background-color: var(--lt-red-dark) !important;
+  border-color: var(--lt-red-dark) !important;
+  color: var(--lt-white) !important;
+}
+
+/* Secondary / outline buttons */
+.woocommerce a.button.alt,
+.elementor-button--ghost,
+.dokan-btn-theme-alt {
+  background-color: transparent !important;
+  color: var(--lt-black) !important;
+  border: 1px solid var(--lt-red) !important;
+}
+
+.woocommerce a.button.alt:hover,
+.elementor-button--ghost:hover {
+  background-color: var(--lt-gray-light) !important;
+  color: var(--lt-black) !important;
+}
+
+/* ── Inputs / Forms ── */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="search"],
+input[type="url"],
+textarea,
+select {
+  font-family: var(--lt-font-body) !important;
+  font-size: 14px !important;
+  border-radius: 0 !important;
+  border: 1px solid var(--lt-gray-border) !important;
+  background: var(--lt-white) !important;
+  color: var(--lt-text) !important;
+  padding: 8px 12px !important;
+  width: 100%;
+  transition: border-color var(--lt-transition), background-color var(--lt-transition);
+  outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--lt-black) !important;
+  background: var(--lt-gray-hover) !important;
+}
+
+input:hover:not(:focus),
+textarea:hover:not(:focus) {
+  background: var(--lt-gray-hover) !important;
+}
+
+label {
+  font-family: var(--lt-font-heading);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: var(--lt-black);
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ── WooCommerce Product Cards ── */
+.woocommerce ul.products li.product,
+.woocommerce-page ul.products li.product {
+  border: 1px solid var(--lt-gray-border);
+  transition: box-shadow var(--lt-transition), transform var(--lt-transition);
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.woocommerce ul.products li.product:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+.woocommerce ul.products li.product .woocommerce-loop-product__title {
+  font-size: 1rem !important;
+  padding: 12px 16px 4px !important;
+}
+
+.woocommerce ul.products li.product .price {
+  padding: 0 16px 8px !important;
+  color: var(--lt-black) !important;
+  font-weight: 600;
+}
+
+.woocommerce ul.products li.product a.button {
+  margin: 0 16px 16px !important;
+  width: calc(100% - 32px) !important;
+  text-align: center !important;
+}
+
+/* ── WooCommerce Product Images ── */
+.woocommerce ul.products li.product a img {
+  transition: transform 0.4s ease;
+}
+.woocommerce ul.products li.product:hover a img {
+  transform: scale(1.015);
+}
+
+/* ── WooCommerce Sale Badge ── */
+.woocommerce span.onsale {
+  background-color: var(--lt-red) !important;
+  color: var(--lt-white) !important;
+  border-radius: 0 !important;
+  font-family: var(--lt-font-heading) !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  min-width: unset;
+  padding: 4px 8px;
+}
+
+/* ── WooCommerce Prices ── */
+.woocommerce .price,
+.woocommerce-Price-amount {
+  color: var(--lt-black) !important;
+  font-weight: 600;
+}
+
+.woocommerce del .woocommerce-Price-amount {
+  color: var(--lt-text-muted) !important;
+  font-weight: 400;
+}
+
+/* ── WooCommerce Single Product ── */
+.woocommerce div.product .product_title {
+  color: var(--lt-red) !important;
+}
+
+.woocommerce div.product form.cart .qty {
+  border-radius: 0 !important;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs li {
+  border-radius: 0 !important;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs li.active a {
+  color: var(--lt-red) !important;
+}
+
+/* ── WooCommerce Checkout ── */
+.woocommerce-checkout .woocommerce-billing-fields h3,
+.woocommerce-checkout .woocommerce-shipping-fields h3,
+.woocommerce-checkout #order_review_heading {
+  font-family: var(--lt-font-heading) !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--lt-black) !important;
+  border-bottom: 2px solid var(--lt-red);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.woocommerce-checkout #payment .payment_methods {
+  border-radius: 0 !important;
+}
+
+.woocommerce .woocommerce-error,
+.woocommerce .woocommerce-message,
+.woocommerce .woocommerce-info {
+  border-top: 3px solid var(--lt-red) !important;
+  border-radius: 0 !important;
+}
+
+/* ── Dokan Vendor Dashboard ── */
+.dokan-dashboard .dokan-dash-sidebar ul li a,
+.dokan-account-migration .dokan-dash-sidebar ul li a {
+  font-family: var(--lt-font-heading) !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: 0.85rem;
+  transition: color var(--lt-transition), background-color var(--lt-transition);
+}
+
+.dokan-dashboard .dokan-dash-sidebar ul li.active a,
+.dokan-dashboard .dokan-dash-sidebar ul li a:hover {
+  color: var(--lt-red) !important;
+  background-color: var(--lt-gray-light) !important;
+}
+
+.dokan-dashboard-content h1,
+.dokan-dashboard-content h2,
+.dokan-dashboard-content h3 {
+  color: var(--lt-red) !important;
+}
+
+/* ── Tables ── */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table th {
+  font-family: var(--lt-font-heading);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  background: var(--lt-gray-light);
+  border-bottom: 2px solid var(--lt-gray-border);
+  padding: 10px 12px;
+  text-align: left;
+}
+
+table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--lt-gray-border);
+  font-size: 14px;
+}
+
+table tr:last-child td { border-bottom: none; }
+table tr:hover td { background: var(--lt-gray-hover); }
+
+/* ── Page Sections ── */
+.elementor-section,
+.e-con {
+  max-width: 1280px !important;
+}
+
+/* ── Cart ── */
+.woocommerce-cart table.cart th {
+  font-family: var(--lt-font-heading);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.woocommerce .cart_totals h2,
+.woocommerce .cross-sells h2 {
+  font-family: var(--lt-font-heading) !important;
+  text-transform: uppercase;
+  color: var(--lt-red) !important;
+}
+
+/* ── Notices ── */
+.woocommerce-store-notice,
+.demo_store {
+  background: var(--lt-red) !important;
+  color: var(--lt-white) !important;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--lt-white); }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.5); }
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  body { font-size: 14px; }
+
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.6rem; }
+  h3 { font-size: 1.3rem; }
+
+  .woocommerce ul.products li.product .woocommerce-loop-product__title {
+    font-size: 0.9rem !important;
+  }
+
+  button,
+  .button,
+  input[type="submit"],
+  .woocommerce a.button,
+  .woocommerce button.button {
+    padding: 12px 16px !important;
+    font-size: 0.9rem !important;
+    width: 100%;
+    text-align: center;
+  }
+
+  .woocommerce ul.products {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  .woocommerce-checkout .col2-set,
+  .woocommerce-cart .col2-set {
+    display: flex;
+    flex-direction: column;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  textarea,
+  select {
+    font-size: 16px !important; /* prevent iOS zoom */
+  }
+}
+
+/* ── Existing custom styles ── */
+.vendor-customer-registration {
+  display: none !important;
+}
