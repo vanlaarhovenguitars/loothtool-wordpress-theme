@@ -20,10 +20,9 @@ $product_cats = get_terms( [
 ] );
 
 // ── Right sidebar: Dokan vendor logos ─────────────────────────────────────────
-$vendors = [];
-if ( function_exists( 'dokan_get_vendors' ) ) {
-	$vendors = dokan_get_vendors( [ 'number' => 20, 'status' => 'approved' ] );
-}
+$vendors = function_exists( 'dokan' )
+	? dokan()->vendor->all( [ 'number' => 20, 'status' => 'approved' ] )
+	: [];
 ?>
 
 <div class="lt-shop-layout">
@@ -132,13 +131,14 @@ if ( function_exists( 'dokan_get_vendors' ) ) {
 		<?php if ( ! empty( $vendors ) ) : ?>
 			<ul class="lt-vendor-list">
 				<?php foreach ( $vendors as $vendor ) :
-					$store_info = dokan_get_store_info( $vendor->ID );
-					$store_name = $store_info['store_name'] ?? $vendor->display_name;
-					$store_url  = dokan_get_store_url( $vendor->ID );
+					$vid        = $vendor->get_id();
+					$store_info = $vendor->get_shop_info();
+					$store_name = $store_info['store_name'] ?? $vendor->data->display_name;
+					$store_url  = dokan_get_store_url( $vid );
 					$logo_id    = $store_info['gravatar'] ?? 0;
 					$logo_url   = $logo_id
 						? wp_get_attachment_image_url( $logo_id, 'thumbnail' )
-						: get_avatar_url( $vendor->ID, [ 'size' => 80 ] );
+						: get_avatar_url( $vid, [ 'size' => 80 ] );
 				?>
 					<li>
 						<a href="<?php echo esc_url( $store_url ); ?>" title="<?php echo esc_attr( $store_name ); ?>">

@@ -27,11 +27,11 @@ $featured_query = new WP_Query( [
 	] ],
 ] );
 
-// ── Approved vendors (up to 12) ──────────────────────────────────────────────
-$vendors = [];
-if ( function_exists( 'dokan_get_vendors' ) ) {
-	$vendors = dokan_get_vendors( [ 'number' => 12, 'status' => 'approved' ] );
-}
+// ── Approved vendors (up to 20) ──────────────────────────────────────────────
+// dokan()->vendor->all() returns Vendor objects with ->id and ->get_shop_info()
+$vendors = function_exists( 'dokan' )
+	? dokan()->vendor->all( [ 'number' => 20, 'status' => 'approved' ] )
+	: [];
 
 $shop_url = get_permalink( wc_get_page_id( 'shop' ) );
 $sell_url = function_exists( 'dokan_get_navigation_url' )
@@ -77,13 +77,14 @@ $sell_url = function_exists( 'dokan_get_navigation_url' )
 				<button class="lt-shops-arrow lt-shops-arrow--prev" aria-label="Previous shops">&#8592;</button>
 				<div class="lt-shops-strip" id="lt-shops-strip">
 					<?php foreach ( $vendors as $vendor ) :
-						$store_info = dokan_get_store_info( $vendor->ID );
-						$store_name = $store_info['store_name'] ?? $vendor->display_name;
-						$store_url  = dokan_get_store_url( $vendor->ID );
+						$vid        = $vendor->get_id();
+						$store_info = $vendor->get_shop_info();
+						$store_name = $store_info['store_name'] ?? $vendor->data->display_name;
+						$store_url  = dokan_get_store_url( $vid );
 						$logo_id    = $store_info['gravatar'] ?? 0;
 						$logo_url   = $logo_id
 							? wp_get_attachment_image_url( $logo_id, 'medium' )
-							: get_avatar_url( $vendor->ID, [ 'size' => 150 ] );
+							: get_avatar_url( $vid, [ 'size' => 150 ] );
 					?>
 						<a class="lt-shop-chip" href="<?php echo esc_url( $store_url ); ?>">
 							<span class="lt-shop-chip__img">
