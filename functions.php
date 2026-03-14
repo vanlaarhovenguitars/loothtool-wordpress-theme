@@ -377,6 +377,17 @@ function lt_mobile_override_css() {
   window.addEventListener('load',function(){setTimeout(killCarousel,200);});
 })();
 </script>
+<script>
+(function(){
+  var strip = document.getElementById('lt-shops-strip');
+  if(!strip) return;
+  var prev = document.querySelector('.lt-shops-arrow--prev');
+  var next = document.querySelector('.lt-shops-arrow--next');
+  var step = 260;
+  if(prev) prev.addEventListener('click', function(){ strip.scrollBy({left:-step, behavior:'smooth'}); });
+  if(next) next.addEventListener('click', function(){ strip.scrollBy({left:step,  behavior:'smooth'}); });
+})();
+</script>
 	<?php
 }
 add_action( 'wp_footer', 'lt_mobile_override_css', 9999 );

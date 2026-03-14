@@ -63,47 +63,42 @@ $sell_url = function_exists( 'dokan_get_navigation_url' )
 </section>
 
 <!-- ═══════════════════════════════════════════════════════
-     SHOPS / VENDORS
+     RECENTLY LISTED + SHOPS STRIP
 ════════════════════════════════════════════════════════ -->
-<?php if ( ! empty( $vendors ) ) : ?>
-<section class="lt-home-section lt-home-cats-section">
-	<div class="lt-home-section__inner">
-
-		<div class="lt-home-section__head">
-			<h2 class="lt-home-section__title">Shop by Seller</h2>
-		</div>
-
-		<div class="lt-cat-tiles lt-vendor-circles">
-			<?php foreach ( $vendors as $vendor ) :
-				$store_info = dokan_get_store_info( $vendor->ID );
-				$store_name = $store_info['store_name'] ?? $vendor->display_name;
-				$store_url  = dokan_get_store_url( $vendor->ID );
-				$logo_id    = $store_info['gravatar'] ?? 0;
-				$logo_url   = $logo_id
-					? wp_get_attachment_image_url( $logo_id, 'medium' )
-					: get_avatar_url( $vendor->ID, [ 'size' => 150 ] );
-			?>
-				<a class="lt-cat-tile" href="<?php echo esc_url( $store_url ); ?>">
-					<span class="lt-cat-tile__img-wrap">
-						<img src="<?php echo esc_url( $logo_url ); ?>"
-						     alt="<?php echo esc_attr( $store_name ); ?>"
-						     loading="lazy">
-					</span>
-					<span class="lt-cat-tile__name"><?php echo esc_html( $store_name ); ?></span>
-				</a>
-			<?php endforeach; ?>
-		</div>
-
-	</div>
-</section>
-<?php endif; ?>
-
-<!-- ═══════════════════════════════════════════════════════
-     RECENTLY LISTED
-════════════════════════════════════════════════════════ -->
-<?php if ( $featured_query->have_posts() ) : ?>
+<?php if ( $featured_query->have_posts() || ! empty( $vendors ) ) : ?>
 <section class="lt-home-section lt-home-products-section">
 	<div class="lt-home-section__inner">
+
+		<?php if ( ! empty( $vendors ) ) : ?>
+		<!-- Shops horizontal strip -->
+		<div class="lt-shops-strip-wrap">
+			<h2 class="lt-shops-strip-label">Shops</h2>
+			<div class="lt-shops-strip-outer">
+				<button class="lt-shops-arrow lt-shops-arrow--prev" aria-label="Previous shops">&#8592;</button>
+				<div class="lt-shops-strip" id="lt-shops-strip">
+					<?php foreach ( $vendors as $vendor ) :
+						$store_info = dokan_get_store_info( $vendor->ID );
+						$store_name = $store_info['store_name'] ?? $vendor->display_name;
+						$store_url  = dokan_get_store_url( $vendor->ID );
+						$logo_id    = $store_info['gravatar'] ?? 0;
+						$logo_url   = $logo_id
+							? wp_get_attachment_image_url( $logo_id, 'medium' )
+							: get_avatar_url( $vendor->ID, [ 'size' => 150 ] );
+					?>
+						<a class="lt-shop-chip" href="<?php echo esc_url( $store_url ); ?>">
+							<span class="lt-shop-chip__img">
+								<img src="<?php echo esc_url( $logo_url ); ?>"
+								     alt="<?php echo esc_attr( $store_name ); ?>"
+								     loading="lazy">
+							</span>
+							<span class="lt-shop-chip__name"><?php echo esc_html( $store_name ); ?></span>
+						</a>
+					<?php endforeach; ?>
+				</div>
+				<button class="lt-shops-arrow lt-shops-arrow--next" aria-label="Next shops">&#8594;</button>
+			</div>
+		</div>
+		<?php endif; ?>
 
 		<div class="lt-home-section__head">
 			<h2 class="lt-home-section__title">Recently Listed</h2>
@@ -152,7 +147,8 @@ $sell_url = function_exists( 'dokan_get_navigation_url' )
 
 	</div>
 </section>
-<?php endif; ?>
+<?php endif; // products or vendors ?>
+<?php if ( ! $featured_query->have_posts() ) : wp_reset_postdata(); endif; ?>
 
 <!-- ═══════════════════════════════════════════════════════
      SELL CTA BANNER
