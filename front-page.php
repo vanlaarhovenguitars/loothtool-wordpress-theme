@@ -30,7 +30,14 @@ $featured_query = new WP_Query( [
 // ── Approved vendors (up to 20) ──────────────────────────────────────────────
 // dokan()->vendor->all() returns Vendor objects with ->id and ->get_shop_info()
 $vendors = function_exists( 'dokan' )
-	? dokan()->vendor->all( [ 'number' => 20, 'status' => 'approved' ] )
+	? dokan()->vendor->all( [
+		'number' => 20,
+		'status' => 'approved',
+		'meta_query' => [ [
+			'key'     => '_lt_vendor_hidden',
+			'compare' => 'NOT EXISTS',
+		] ],
+	] )
 	: [];
 
 $shop_url = get_permalink( wc_get_page_id( 'shop' ) );

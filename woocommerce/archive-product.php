@@ -21,7 +21,14 @@ $product_cats = get_terms( [
 
 // ── Right sidebar: Dokan vendor logos ─────────────────────────────────────────
 $vendors = function_exists( 'dokan' )
-	? dokan()->vendor->all( [ 'number' => 20, 'status' => 'approved' ] )
+	? dokan()->vendor->all( [
+		'number' => 20,
+		'status' => 'approved',
+		'meta_query' => [ [
+			'key'     => '_lt_vendor_hidden',
+			'compare' => 'NOT EXISTS',
+		] ],
+	] )
 	: [];
 ?>
 

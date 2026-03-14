@@ -513,3 +513,71 @@ function lt_save_vendor_branding() {
 }
 add_action( 'wp_ajax_lt_save_vendor_branding', 'lt_save_vendor_branding' );
 
+// ============================================================
+//  VENDOR VISIBILITY — admin toggle in Users list
+// ============================================================
+
+/**
+ * Add "Visibility" column to WP Admin → Users.
+ */
+function lt_users_columns( $cols ) {
+	$cols['lt_vendor_hidden'] = 'Vendor Visible';
+	return $cols;
+}
+add_filter( 'manage_users_columns', 'lt_users_columns' );
+
+/**
+ * Render the column value — show toggle link for vendor users only.
+ */
+function lt_users_column_content( $output, $col, $user_id ) {
+	if ( $col !== 'lt_vendor_hidden' ) return $output;
+
+	$user = get_userdata( $user_id );
+	// Only show for vendor/seller roles
+	if ( ! $user || ( ! in_array( 'seller', (array) $user->roles ) && ! in_array( 'vendor', (array) $user->roles ) ) ) {
+		return '<span style="color:#aaa">—</span>';
+	}
+
+	$hidden  = get_user_meta( $user_id, '_lt_vendor_hidden', true );
+	$nonce   = wp_create_nonce( 'lt_toggle_vendor_' . $user_id );
+	$toggle_url = admin_url( "users.php?lt_toggle_vendor={$user_id}&_wpnonce={$nonce}" );
+
+	if ( $hidden ) {
+		return '<a href="' . esc_url( $toggle_url ) . '" style="color:#a42325;font-weight:600;">&#10007; Hidden</a>';
+	}
+	return '<a href="' . esc_url( $toggle_url ) . '" style="color:#3a7d44;font-weight:600;">&#10003; Visible</a>';
+}
+add_filter( 'manage_users_custom_column', 'lt_users_column_content', 10, 3 );
+
+/**
+ * Handle the toggle action.
+ */
+function lt_handle_vendor_toggle() {
+	if ( ! isset( $_GET['lt_toggle_vendor'] ) ) return;
+	if ( ! current_user_can( 'manage_options' ) ) wp_die( 'Not allowed.' );
+
+	$user_id = absint( $_GET['lt_toggle_vendor'] );
+	if ( ! wp_verify_nonce( $_GET['_wpnonce'] ?? '', 'lt_toggle_vendor_' . $user_id ) ) wp_die( 'Security check failed.' );
+
+	$hidden = get_user_meta( $user_id, '_lt_vendor_hidden', true );
+	if ( $hidden ) {
+		delete_user_meta( $user_id, '_lt_vendor_hidden' );
+	} else {
+		update_user_meta( $user_id, '_lt_vendor_hidden', '1' );
+	}
+
+	wp_redirect( admin_url( 'users.php?lt_toggled=1' ) );
+	exit;
+}
+add_action( 'admin_init', 'lt_handle_vendor_toggle' );
+
+/**
+ * Show notice after toggling.
+ */
+function lt_vendor_toggle_notice() {
+	if ( isset( $_GET['lt_toggled'] ) && current_user_can( 'manage_options' ) ) {
+		echo '<div class="notice notice-success is-dismissible"><p>Vendor visibility updated.</p></div>';
+	}
+}
+add_action( 'admin_notices', 'lt_vendor_toggle_notice' );
+
