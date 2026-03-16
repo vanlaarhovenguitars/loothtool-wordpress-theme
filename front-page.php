@@ -185,11 +185,17 @@ $sell_url = function_exists( 'dokan_get_navigation_url' )
 ════════════════════════════════════════════════════════ -->
 <section class="lt-sell-banner">
 	<div class="lt-sell-banner__inner">
-		<h2 class="lt-sell-banner__title">Have Gear to Sell?</h2>
+		<h2 class="lt-sell-banner__title">Have Tools to Sell?</h2>
 		<p class="lt-sell-banner__text">
-			Join independent sellers on Loothtool and reach guitar players everywhere.
+			Join independent sellers on Loothtool and reach luthiers worldwide.
 		</p>
-		<a class="lt-sell-banner__btn" href="<?php echo esc_url( $sell_url ); ?>">Open Your Shop</a>
+		<?php
+		// TODO PRODUCTION: Update this email to the live contact address before going live.
+		// See MASTERPROMPT.md Production Migration Checklist.
+		$contact_email = 'vanlaarhovenguitars@gmail.com';
+		$mailto = 'mailto:' . $contact_email . '?subject=' . rawurlencode( 'I want to open a shop on Loothtool' );
+		?>
+		<a class="lt-sell-banner__btn" href="<?php echo esc_attr( $mailto ); ?>">Open Your Shop</a>
 	</div>
 </section>
 
