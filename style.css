@@ -1839,7 +1839,7 @@ table tr:hover td { background: var(--lt-gray-hover); }
     z-index: 50;
     background: var(--lt-white);
     margin: 0 -16px 0;
-    padding: 4px 16px 12px;
+    padding: 4px 16px 18px;
     border-bottom: 1px solid var(--lt-gray-border);
   }
   .lt-shops-strip-wrap .lt-shops-strip-label { margin-bottom: 4px; }
