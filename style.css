@@ -2317,6 +2317,31 @@ body.lt-dark nav a { color: #ddeae6 !important; }
 /* ── Labels ── */
 body.lt-dark label { color: #ddeae6; }
 
+/* ── Headings: light on dark bg, dark on light bg ── */
+body.lt-dark h1,
+body.lt-dark h2,
+body.lt-dark h3,
+body.lt-dark h4,
+body.lt-dark h5,
+body.lt-dark h6,
+body.lt-dark .entry-title,
+body.lt-dark .page-title,
+body.lt-dark .woocommerce-loop-product__title,
+body.lt-dark .elementor-heading-title,
+body.lt-dark .site-title { color: #6FB98F !important; }
+
+/* In light mode use the darker teal so it contrasts white bg */
+body:not(.lt-dark) h1,
+body:not(.lt-dark) h2,
+body:not(.lt-dark) h3,
+body:not(.lt-dark) h4,
+body:not(.lt-dark) h5,
+body:not(.lt-dark) h6,
+body:not(.lt-dark) .entry-title,
+body:not(.lt-dark) .page-title,
+body:not(.lt-dark) .woocommerce-loop-product__title,
+body:not(.lt-dark) .elementor-heading-title { color: #004445 !important; }
+
 /* ── WC product cards ── */
 body.lt-dark .lt-product-card {
   background: #0e2d30;
