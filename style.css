@@ -2426,11 +2426,19 @@ body.lt-dark .wp-block-cover { background: #0b2528; }
 body.lt-dark blockquote { border-left-color: #6FB98F; color: rgba(221,234,230,0.7); }
 body.lt-dark hr { border-color: rgba(111,185,143,0.15); }
 
-/* ── Dark theme toggle button ── */
-.lt-dark-toggle {
+/* ── Floating action button group (right side, fixed) ── */
+.lt-fab-group {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  right: 16px;
+  bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  z-index: 99999;
+}
+
+.lt-fab {
   width: 42px;
   height: 42px;
   min-width: 42px;
@@ -2443,19 +2451,61 @@ body.lt-dark hr { border-color: rgba(111,185,143,0.15); }
   display: flex !important;
   align-items: center;
   justify-content: center;
-  z-index: 99999;
   padding: 0 !important;
-  overflow: hidden;
   transition: transform 0.2s ease, background 0.2s ease;
   box-shadow: 0 3px 12px rgba(0,0,0,0.5);
   line-height: 1;
   text-transform: none !important;
   font-size: 0 !important;
   letter-spacing: 0 !important;
+  text-decoration: none !important;
+  flex-shrink: 0;
+  position: relative;
 }
-.lt-dark-toggle:hover { transform: scale(1.15) !important; background: #2C7873 !important; }
-.lt-dark-toggle svg { pointer-events: none; flex-shrink: 0; }
+.lt-fab:hover { transform: scale(1.12) !important; background: #2C7873 !important; color: #fff !important; }
+.lt-fab svg { pointer-events: none; flex-shrink: 0; }
+
+/* Checkout label tooltip on hover */
+.lt-fab__label {
+  position: absolute;
+  right: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #004445;
+  color: #6FB98F;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  padding: 4px 10px;
+  border-radius: 3px;
+  border: 1px solid rgba(111,185,143,0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  font-size: 0.75rem !important;
+}
+.lt-fab--checkout:hover .lt-fab__label { opacity: 1; }
+
+/* Dark toggle icons */
 .lt-dark-toggle .lt-icon-sun { display: none; }
 .lt-dark-toggle .lt-icon-moon { display: block; }
 body.lt-dark .lt-dark-toggle .lt-icon-sun { display: block; }
 body.lt-dark .lt-dark-toggle .lt-icon-moon { display: none; }
+
+/* ── Text contrast: light text on dark, dark text on light ── */
+body.lt-dark,
+body.lt-dark p,
+body.lt-dark li,
+body.lt-dark td,
+body.lt-dark th,
+body.lt-dark span:not([class*="lt-"]):not([class*="wc-"]) { color: #ddeae6; }
+
+body:not(.lt-dark),
+body:not(.lt-dark) p,
+body:not(.lt-dark) li,
+body:not(.lt-dark) td,
+body:not(.lt-dark) th { color: #111111; }
