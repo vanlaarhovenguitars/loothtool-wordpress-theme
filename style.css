@@ -23,8 +23,8 @@ Tags: flexible-header, custom-colors, custom-menu, custom-logo, editor-style, fe
 
 /* ── CSS Variables ── */
 :root {
-  --lt-red:          #a42325;
-  --lt-red-dark:     #780406;
+  --lt-red:          #2C7873;
+  --lt-red-dark:     #004445;
   --lt-black:        #000000;
   --lt-white:        #ffffff;
   --lt-gray-light:   #f1f1f1;
@@ -678,9 +678,9 @@ table tr:hover td { background: var(--lt-gray-hover); }
    ============================================================ */
 
 :root {
-  --lt-olive:      #6b7240;
-  --lt-olive-dark: #4e5430;
-  --lt-gold:       #c9a84c;
+  --lt-olive:      #004445;
+  --lt-olive-dark: #021C1E;
+  --lt-gold:       #6FB98F;
   --lt-header-h:   56px;
 }
 
@@ -819,75 +819,113 @@ table tr:hover td { background: var(--lt-gray-hover); }
 
 /* ── Footer ── */
 .lt-footer {
-  background: var(--lt-olive);
-  padding: 20px 24px;
-  margin-top: 48px;
+  background: #021C1E;
+  margin-top: 0;
 }
 
 .lt-footer__inner {
   max-width: 1400px;
   margin: 0 auto;
+  padding: 48px 32px 24px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.lt-footer__top {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 2px solid var(--lt-gold);
-  background: transparent;
-  color: var(--lt-gold);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background var(--lt-transition), color var(--lt-transition);
-  padding: 0;
-  flex-shrink: 0;
-}
-.lt-footer__top:hover {
-  background: var(--lt-gold);
-  color: var(--lt-olive);
+  gap: 0;
 }
 
 .lt-footer__logo {
   font-family: var(--lt-font-heading);
-  font-size: 1.3rem;
+  font-size: 2rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--lt-gold);
+  letter-spacing: 0.12em;
+  color: #6FB98F;
   text-decoration: none;
   transition: opacity var(--lt-transition);
+  margin-bottom: 6px;
 }
-.lt-footer__logo:hover { opacity: 0.8; color: var(--lt-gold); }
+.lt-footer__logo:hover { opacity: 0.75; color: #6FB98F; }
+
+.lt-footer__tagline {
+  font-family: var(--lt-font-body);
+  font-size: 0.82rem;
+  color: rgba(111,185,143,0.55);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
 
 .lt-footer__social {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
+  gap: 14px;
+  margin-bottom: 32px;
 }
 
 .lt-social {
-  width: 38px;
-  height: 38px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
+  border: 1px solid rgba(111,185,143,0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  transition: opacity var(--lt-transition), transform var(--lt-transition);
+  color: #6FB98F;
+  transition: border-color var(--lt-transition), background var(--lt-transition), transform var(--lt-transition);
   flex-shrink: 0;
 }
-.lt-social:hover { opacity: 0.85; transform: scale(1.08); }
+.lt-social:hover {
+  border-color: #6FB98F;
+  background: rgba(111,185,143,0.12);
+  transform: translateY(-2px);
+}
+.lt-social svg { opacity: 0.9; }
 
-.lt-social--instagram { background: #e1306c; }
-.lt-social--youtube   { background: #ff0000; }
-.lt-social--facebook  { background: #1877f2; }
+.lt-social--instagram { background: transparent; }
+.lt-social--youtube   { background: transparent; }
+.lt-social--facebook  { background: transparent; }
+
+.lt-footer__divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(111,185,143,0.12);
+  margin-bottom: 20px;
+}
+
+.lt-footer__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
+.lt-footer__copy {
+  font-size: 0.75rem;
+  color: rgba(111,185,143,0.35);
+  letter-spacing: 0.04em;
+}
+
+.lt-footer__top {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(111,185,143,0.25);
+  background: transparent;
+  color: rgba(111,185,143,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color var(--lt-transition), color var(--lt-transition);
+  padding: 0;
+  flex-shrink: 0;
+}
+.lt-footer__top:hover {
+  border-color: #6FB98F;
+  color: #6FB98F;
+}
 
 /* ── Shop Archive: 3-column layout ── */
 .lt-shop-layout {
@@ -2197,7 +2235,7 @@ table tr:hover td { background: var(--lt-gray-hover); }
 }
 
 .lt-search-dropdown__vendor {
-  color: #6b7240;
+  color: #004445;
   font-weight: 500;
 }
 
