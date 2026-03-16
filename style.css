@@ -2314,6 +2314,11 @@ body.lt-dark .page-content,
 body.lt-dark .woocommerce,
 body.lt-dark .woocommerce-page { background: #021C1E; color: #ddeae6; }
 
+/* WC adds woocommerce/woocommerce-page to body itself — target directly */
+body.lt-dark.woocommerce,
+body.lt-dark.woocommerce-page,
+body.lt-dark.single-product { background: #021C1E !important; color: #ddeae6; }
+
 /* ── Header ── */
 body.lt-dark .lt-header,
 body.lt-dark .site-header,
