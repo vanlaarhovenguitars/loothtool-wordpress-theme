@@ -2575,8 +2575,13 @@ body.lt-dark .lt-product-desc .wp-block-callout,
 body.lt-dark .lt-product-desc blockquote,
 body.lt-dark .wp-block-group__inner-container { background: #0e2d30 !important; color: #ddeae6 !important; border-color: rgba(111,185,143,0.2) !important; }
 
-/* Force all text inside description to be readable */
-body.lt-dark .lt-product-desc * { color: #ddeae6 !important; }
+/* Force all text inside description to be readable — covers inline style="color:..." */
+body.lt-dark .lt-product-desc,
+body.lt-dark .lt-product-desc *,
+body.lt-dark .lt-single-bottom,
+body.lt-dark .lt-single-bottom * { color: #ddeae6 !important; }
+body.lt-dark .lt-product-desc a,
+body.lt-dark .lt-single-bottom a { color: #6FB98F !important; }
 
 /* Breadcrumb */
 body.lt-dark .woocommerce-breadcrumb,
