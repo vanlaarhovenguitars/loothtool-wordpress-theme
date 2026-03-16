@@ -1819,6 +1819,7 @@ table tr:hover td { background: var(--lt-gray-hover); }
 /* ── Store header ── */
 .lt-store-header {
   --lt-store-color: #a42325;
+  overflow: visible;
 }
 
 .lt-store-banner {
