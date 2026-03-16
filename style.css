@@ -1815,25 +1815,25 @@ table tr:hover td { background: var(--lt-gray-hover); }
   .lt-nav__item--dropdown:hover .lt-nav__dropdown { display: none; }
   .lt-nav__item--dropdown.is-open .lt-nav__dropdown { display: block; }
 
-  /* Shop layout — shops strip at top, sticky as you scroll */
+  /* Shop layout — flexbox so sticky spans full scroll height */
   .lt-shop-layout {
-    grid-template-columns: 1fr;
-    grid-template-areas: "right" "left" "main";
+    display: flex;
+    flex-direction: column;
     padding: 0 12px;
-    margin-top: 20px;
-    gap: 20px;
+    margin-top: 0;
+    gap: 0;
   }
-  .lt-shop-sidebar--left { position: static; }
+  .lt-shop-sidebar--left { order: 2; padding-top: 16px; position: static; }
+  .lt-shop-main { order: 3; padding-top: 16px; }
   .lt-shop-sidebar--right {
+    order: 1;
     position: sticky;
     top: var(--lt-header-h);
     z-index: 50;
     background: var(--lt-white);
-    padding: 8px 0;
+    padding: 8px 12px;
     border-bottom: 1px solid var(--lt-gray-border);
     margin: 0 -12px;
-    padding-left: 12px;
-    padding-right: 12px;
   }
   body.lt-dark .lt-shop-sidebar--right {
     background: #021C1E;
