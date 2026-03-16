@@ -1320,6 +1320,34 @@ table tr:hover td { background: var(--lt-gray-hover); }
 }
 .lt-home-section__all:hover { color: var(--lt-red-dark); }
 
+/* ── Homepage pagination ── */
+.lt-home-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 32px 0 8px;
+  flex-wrap: wrap;
+}
+.lt-home-pagination .page-numbers {
+  font-family: var(--lt-font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 7px 14px;
+  border: 1px solid var(--lt-gray-border);
+  color: var(--lt-black);
+  text-decoration: none;
+  transition: background var(--lt-transition), color var(--lt-transition), border-color var(--lt-transition);
+}
+.lt-home-pagination .page-numbers:hover,
+.lt-home-pagination .page-numbers.current {
+  background: var(--lt-red);
+  border-color: var(--lt-red);
+  color: #fff;
+}
+body.lt-dark .lt-home-pagination .page-numbers { color: #ddeae6; }
+
 /* ── Shops horizontal strip ── */
 .lt-shops-strip-wrap {
   margin-bottom: 36px;

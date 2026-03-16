@@ -11,10 +11,12 @@ defined( 'ABSPATH' ) || exit;
 
 get_header();
 
-// ── Recently listed products (8) ─────────────────────────────────────────────
+// ── Recently listed products ──────────────────────────────────────────────────
+$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
 $featured_query = new WP_Query( [
 	'post_type'           => 'product',
-	'posts_per_page'      => 8,
+	'posts_per_page'      => 12,
+	'paged'               => $paged,
 	'orderby'             => 'date',
 	'order'               => 'DESC',
 	'post_status'         => 'publish',
@@ -139,7 +141,6 @@ if ( $hero_color ) $hero_style .= 'color:' . esc_attr( $hero_color ) . ';';
 
 		<div class="lt-home-section__head">
 			<h2 class="lt-home-section__title">Recently Listed</h2>
-			<a class="lt-home-section__all" href="<?php echo esc_url( $shop_url ); ?>">See all listings →</a>
 		</div>
 
 		<div class="lt-product-grid lt-home-product-grid">
@@ -181,6 +182,17 @@ if ( $hero_color ) $hero_style .= 'color:' . esc_attr( $hero_color ) . ';';
 				</article>
 			<?php endwhile; wp_reset_postdata(); ?>
 		</div>
+
+		<?php if ( $featured_query->max_num_pages > 1 ) : ?>
+			<div class="lt-home-pagination">
+				<?php echo paginate_links( [
+					'total'   => $featured_query->max_num_pages,
+					'current' => $paged,
+					'prev_text' => '← Prev',
+					'next_text' => 'Next →',
+				] ); ?>
+			</div>
+		<?php endif; ?>
 
 	</div>
 </section>
