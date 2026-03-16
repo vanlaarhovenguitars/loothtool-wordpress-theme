@@ -2342,6 +2342,14 @@ body:not(.lt-dark) .page-title,
 body:not(.lt-dark) .woocommerce-loop-product__title,
 body:not(.lt-dark) .elementor-heading-title { color: #2C7873 !important; }
 
+/* Dark-background sections: force white text in light mode */
+body:not(.lt-dark) .lt-hero h1,
+body:not(.lt-dark) .lt-hero__title,
+body:not(.lt-dark) .lt-hero__eyebrow,
+body:not(.lt-dark) .lt-sell-banner h2,
+body:not(.lt-dark) .lt-sell-banner__title,
+body:not(.lt-dark) .lt-sell-banner__text { color: #ffffff !important; }
+
 /* ── WC product cards ── */
 body.lt-dark .lt-product-card {
   background: #0e2d30;
