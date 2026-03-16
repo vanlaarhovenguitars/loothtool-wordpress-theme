@@ -2330,7 +2330,7 @@ body.lt-dark .woocommerce-loop-product__title,
 body.lt-dark .elementor-heading-title,
 body.lt-dark .site-title { color: #6FB98F !important; }
 
-/* In light mode use the darker teal so it contrasts white bg */
+/* In light mode use mid-teal — visible on white AND teal section backgrounds */
 body:not(.lt-dark) h1,
 body:not(.lt-dark) h2,
 body:not(.lt-dark) h3,
@@ -2340,7 +2340,7 @@ body:not(.lt-dark) h6,
 body:not(.lt-dark) .entry-title,
 body:not(.lt-dark) .page-title,
 body:not(.lt-dark) .woocommerce-loop-product__title,
-body:not(.lt-dark) .elementor-heading-title { color: #004445 !important; }
+body:not(.lt-dark) .elementor-heading-title { color: #2C7873 !important; }
 
 /* ── WC product cards ── */
 body.lt-dark .lt-product-card {
