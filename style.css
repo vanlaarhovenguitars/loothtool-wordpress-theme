@@ -1333,7 +1333,7 @@ table tr:hover td { background: var(--lt-gray-hover); }
   scrollbar-width: none;
   flex: 1;
   padding: 28px 0;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
 }
 .lt-shops-strip::-webkit-scrollbar { display: none; }
