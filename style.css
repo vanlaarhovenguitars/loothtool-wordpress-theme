@@ -2266,3 +2266,189 @@ table tr:hover td { background: var(--lt-gray-hover); }
   background: #eef4fb;
   color: #135e96;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   DARK MODE
+   Applied via body.lt-dark (toggled by JS, saved to localStorage)
+   Most colours flow through CSS variables — only hardcoded
+   values need explicit overrides below.
+   ═══════════════════════════════════════════════════════════ */
+
+body.lt-dark {
+  --lt-white:        #0b2528;
+  --lt-gray-light:   #0e2d30;
+  --lt-gray-border:  rgba(111,185,143,0.15);
+  --lt-gray-hover:   #103234;
+  --lt-text:         #ddeae6;
+  --lt-text-muted:   rgba(221,234,230,0.5);
+  --lt-black:        #ddeae6;
+  background: #021C1E;
+  color: #ddeae6;
+}
+
+/* ── Page wrap / generic containers ── */
+body.lt-dark #page,
+body.lt-dark .site,
+body.lt-dark main,
+body.lt-dark #content,
+body.lt-dark .site-content,
+body.lt-dark .entry-content,
+body.lt-dark .page-content,
+body.lt-dark .woocommerce,
+body.lt-dark .woocommerce-page { background: #021C1E; color: #ddeae6; }
+
+/* ── Header ── */
+body.lt-dark .lt-header,
+body.lt-dark .site-header,
+body.lt-dark #site-header,
+body.lt-dark .elementor-location-header {
+  background: #021C1E !important;
+  border-bottom-color: rgba(111,185,143,0.15) !important;
+}
+body.lt-dark .lt-header__brand { color: var(--lt-red); }
+body.lt-dark .lt-header__nav a,
+body.lt-dark .lt-header__account a,
+body.lt-dark .lt-header__account button { color: #ddeae6 !important; }
+body.lt-dark .lt-header__nav a:hover { color: #6FB98F !important; }
+body.lt-dark .elementor-nav-menu a,
+body.lt-dark .main-navigation a,
+body.lt-dark nav a { color: #ddeae6 !important; }
+
+/* ── Labels ── */
+body.lt-dark label { color: #ddeae6; }
+
+/* ── WC product cards ── */
+body.lt-dark .lt-product-card {
+  background: #0e2d30;
+  border-color: rgba(111,185,143,0.15);
+}
+body.lt-dark .lt-product-card__title { color: #ddeae6; }
+body.lt-dark .lt-product-card__price { color: #ddeae6; }
+body.lt-dark .lt-product-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+body.lt-dark .woocommerce ul.products li.product,
+body.lt-dark .woocommerce-page ul.products li.product {
+  background: #0e2d30;
+  border-color: rgba(111,185,143,0.15);
+}
+body.lt-dark .woocommerce ul.products li.product .price,
+body.lt-dark .woocommerce-Price-amount { color: #ddeae6 !important; }
+
+/* ── Shop archive sidebars ── */
+body.lt-dark .lt-cat-list a { color: #ddeae6; }
+body.lt-dark .lt-shops-heading { color: #6FB98F; }
+body.lt-dark .lt-vendor-logo { border-color: rgba(111,185,143,0.2); }
+body.lt-dark .lt-shop-brand { color: #6FB98F; }
+
+/* ── Shops strip (homepage) ── */
+body.lt-dark .lt-shops-section {
+  background: #0b2528;
+  border-top-color: rgba(111,185,143,0.1);
+  border-bottom-color: rgba(111,185,143,0.1);
+}
+body.lt-dark .lt-shops-section__heading { color: #6FB98F; }
+
+/* ── Search dropdown ── */
+body.lt-dark .lt-search-dropdown {
+  background: #0e2d30;
+  border-color: rgba(111,185,143,0.2);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+body.lt-dark .lt-search-dropdown__item:hover,
+body.lt-dark .lt-search-dropdown__item:focus { background: #103234; }
+body.lt-dark .lt-search-dropdown__img { background: #0b2528; }
+body.lt-dark .lt-search-dropdown__name { color: #ddeae6; }
+body.lt-dark .lt-search-dropdown__none { color: rgba(221,234,230,0.5); }
+body.lt-dark .lt-search-dropdown__all {
+  background: #0b2528;
+  color: #6FB98F;
+  border-top-color: rgba(111,185,143,0.1);
+}
+body.lt-dark .lt-search-dropdown__all:hover { background: #103234; color: #6FB98F; }
+
+/* ── Dokan vendor dashboard ── */
+body.lt-dark .dokan-dashboard-wrap,
+body.lt-dark .dokan-dashboard { background: #021C1E !important; }
+body.lt-dark .dokan-dash-sidebar,
+body.lt-dark .dokan-dashboard .dokan-dash-sidebar { background: #0b2528 !important; border-color: rgba(111,185,143,0.12) !important; }
+body.lt-dark .dokan-dashboard .dokan-dash-sidebar ul li a { color: #ddeae6 !important; }
+body.lt-dark .dokan-dashboard .dokan-dash-sidebar ul li.active a,
+body.lt-dark .dokan-dashboard .dokan-dash-sidebar ul li a:hover {
+  background-color: #103234 !important;
+  color: #6FB98F !important;
+}
+body.lt-dark .dokan-dashboard-content { background: #021C1E !important; color: #ddeae6 !important; }
+body.lt-dark .dokan-dashboard-content h1,
+body.lt-dark .dokan-dashboard-content h2,
+body.lt-dark .dokan-dashboard-content h3 { color: #6FB98F !important; }
+
+/* Dokan tables */
+body.lt-dark .dokan-dashboard table,
+body.lt-dark .dokan-table { background: #0b2528 !important; border-color: rgba(111,185,143,0.12) !important; }
+body.lt-dark .dokan-dashboard table th,
+body.lt-dark .dokan-dashboard table td { border-color: rgba(111,185,143,0.12) !important; color: #ddeae6 !important; }
+body.lt-dark .dokan-dashboard table thead th { background: #0e2d30 !important; }
+body.lt-dark .dokan-dashboard table tbody tr:nth-child(even) { background: #0e2d30 !important; }
+
+/* Dokan forms / panels */
+body.lt-dark .dokan-settings-content,
+body.lt-dark .dokan-form-group,
+body.lt-dark .dokan-panel,
+body.lt-dark .panel { background: #0b2528 !important; border-color: rgba(111,185,143,0.12) !important; }
+body.lt-dark .panel-heading { background: #0e2d30 !important; color: #ddeae6 !important; border-color: rgba(111,185,143,0.12) !important; }
+body.lt-dark .panel-body { background: #0b2528 !important; color: #ddeae6 !important; }
+
+/* ── WC checkout / cart / account ── */
+body.lt-dark .woocommerce-checkout,
+body.lt-dark .woocommerce-cart,
+body.lt-dark .woocommerce-account { background: #021C1E !important; }
+body.lt-dark .woocommerce-checkout .woocommerce-billing-fields h3,
+body.lt-dark .woocommerce-checkout .woocommerce-shipping-fields h3,
+body.lt-dark .woocommerce-checkout #order_review_heading { color: #ddeae6 !important; }
+body.lt-dark .woocommerce-account .woocommerce-MyAccount-navigation { background: #0b2528; }
+body.lt-dark .woocommerce-account .woocommerce-MyAccount-navigation ul li a { color: #ddeae6; }
+body.lt-dark #order_review,
+body.lt-dark .woocommerce-checkout-review-order-table,
+body.lt-dark .cart_totals { background: #0b2528 !important; border-color: rgba(111,185,143,0.12) !important; }
+body.lt-dark .woocommerce-checkout #payment,
+body.lt-dark .woocommerce-checkout #payment .payment_methods { background: #0b2528 !important; border-color: rgba(111,185,143,0.12) !important; }
+
+/* WC notices */
+body.lt-dark .woocommerce .woocommerce-error,
+body.lt-dark .woocommerce .woocommerce-message,
+body.lt-dark .woocommerce .woocommerce-info { background: #0e2d30 !important; color: #ddeae6 !important; }
+
+/* ── WP pages / generic ── */
+body.lt-dark .widget,
+body.lt-dark .widget_categories,
+body.lt-dark aside { background: transparent; color: #ddeae6; }
+body.lt-dark .wp-block-group,
+body.lt-dark .wp-block-cover { background: #0b2528; }
+body.lt-dark blockquote { border-left-color: #6FB98F; color: rgba(221,234,230,0.7); }
+body.lt-dark hr { border-color: rgba(111,185,143,0.15); }
+
+/* ── Dark theme toggle button ── */
+.lt-dark-toggle {
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #004445;
+  border: 1px solid rgba(111,185,143,0.35);
+  color: #6FB98F;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  padding: 0;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+.lt-dark-toggle:hover { transform: scale(1.12); border-color: #6FB98F; }
+.lt-dark-toggle svg { pointer-events: none; }
+.lt-dark-toggle .lt-icon-sun { display: none; }
+.lt-dark-toggle .lt-icon-moon { display: block; }
+body.lt-dark .lt-dark-toggle .lt-icon-sun { display: block; }
+body.lt-dark .lt-dark-toggle .lt-icon-moon { display: none; }
