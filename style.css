@@ -2396,6 +2396,7 @@ body.lt-dark .lt-shop-brand { color: #6FB98F; }
 /* ── Vendor store page ── */
 body.lt-dark .lt-breadcrumb { background: #021C1E; color: rgba(221,234,230,0.6); }
 body.lt-dark .lt-breadcrumb a { color: rgba(221,234,230,0.6); }
+.lt-breadcrumb--store { margin-bottom: 0; padding: 8px 16px; }
 body.lt-dark .lt-store-header { background: #021C1E; }
 body.lt-dark .lt-store-identity { background: #021C1E; }
 body.lt-dark .lt-store-name { color: #ddeae6; }

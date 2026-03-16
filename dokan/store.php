@@ -46,7 +46,7 @@ get_header();
 <!-- ═══════════════════════════════════════════
      BREADCRUMB
 ════════════════════════════════════════════ -->
-<nav class="lt-breadcrumb" aria-label="Breadcrumb">
+<nav class="lt-breadcrumb lt-breadcrumb--store" aria-label="Breadcrumb">
 	<a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a>
 	<span>/</span>
 	<?php echo esc_html( $store_name ); ?>
