@@ -1850,6 +1850,8 @@ table tr:hover td { background: var(--lt-gray-hover); }
   margin: 0 auto;
   padding: 0 24px 28px;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .lt-store-logo-wrap {
