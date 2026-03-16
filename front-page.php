@@ -29,7 +29,7 @@ $featured_query = new WP_Query( [
 
 // ── Approved vendors (up to 20) ──────────────────────────────────────────────
 // dokan()->vendor->all() returns Vendor objects with ->id and ->get_shop_info()
-$vendors = function_exists( 'dokan' )
+$vendors_raw = function_exists( 'dokan' )
 	? dokan()->vendor->all( [
 		'number' => 20,
 		'status' => 'approved',
@@ -40,6 +40,21 @@ $vendors = function_exists( 'dokan' )
 		] ],
 	] )
 	: [];
+
+// Pin featured vendors first: VL Guitar Repair (buckvanlaarhoven=6), then Looth Prints (loothprints=126).
+$featured_ids = [ 6, 126 ];
+$featured     = [];
+$rest         = [];
+foreach ( $vendors_raw as $v ) {
+	$pos = array_search( $v->get_id(), $featured_ids, true );
+	if ( $pos !== false ) {
+		$featured[ $pos ] = $v;
+	} else {
+		$rest[] = $v;
+	}
+}
+ksort( $featured );
+$vendors = array_merge( array_values( $featured ), $rest );
 
 $shop_url = get_permalink( wc_get_page_id( 'shop' ) );
 $sell_url = function_exists( 'dokan_get_navigation_url' )
@@ -94,7 +109,7 @@ $sell_url = function_exists( 'dokan_get_navigation_url' )
 							? wp_get_attachment_image_url( $logo_id, 'medium' )
 							: get_avatar_url( $vid, [ 'size' => 150 ] );
 					?>
-						<a class="lt-shop-chip" href="<?php echo esc_url( $store_url ); ?>">
+						<a class="lt-shop-chip<?php echo in_array( $vid, $featured_ids, true ) ? ' lt-shop-chip--featured' : ''; ?>" href="<?php echo esc_url( $store_url ); ?>">
 							<span class="lt-shop-chip__img">
 								<img src="<?php echo esc_url( $logo_url ); ?>"
 								     alt="<?php echo esc_attr( $store_name ); ?>"

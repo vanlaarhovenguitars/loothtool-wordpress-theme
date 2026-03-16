@@ -1333,6 +1333,7 @@ table tr:hover td { background: var(--lt-gray-hover); }
   scrollbar-width: none;       /* Firefox */
   flex: 1;
   padding: 6px 0;
+  justify-content: center;
 }
 .lt-shops-strip::-webkit-scrollbar { display: none; }
 
@@ -1359,6 +1360,18 @@ table tr:hover td { background: var(--lt-gray-hover); }
   transition: border-color var(--lt-transition);
 }
 .lt-shop-chip:hover .lt-shop-chip__img { border-color: var(--lt-gold); }
+
+.lt-shop-chip--featured .lt-shop-chip__img {
+  width: 96px;
+  height: 96px;
+  border-color: var(--lt-gold);
+  border-width: 3px;
+}
+.lt-shop-chip--featured .lt-shop-chip__name {
+  max-width: 96px;
+  font-size: 0.72rem;
+  color: var(--lt-olive);
+}
 
 .lt-shop-chip__img img {
   width: 100%;
