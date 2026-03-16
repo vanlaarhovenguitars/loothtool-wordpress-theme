@@ -2394,11 +2394,11 @@ body.lt-dark .lt-shop-chip--invert img { filter: invert(1); }
 body.lt-dark .lt-shop-brand { color: #6FB98F; }
 
 /* ── Vendor store page ── */
-body.lt-dark .lt-store-header { background: var(--lt-bg); }
-body.lt-dark .lt-store-identity { background: var(--lt-bg); }
-body.lt-dark .lt-store-name { color: var(--lt-white); }
+body.lt-dark .lt-store-header { background: #021C1E; }
+body.lt-dark .lt-store-identity { background: #021C1E; }
+body.lt-dark .lt-store-name { color: #ddeae6; }
 body.lt-dark .lt-store-bio { color: rgba(221,234,230,0.7); }
-body.lt-dark .lt-store-products-wrap { background: var(--lt-bg); }
+body.lt-dark .lt-store-products-wrap { background: #021C1E; }
 body.lt-dark .lt-store-products-heading { color: #6FB98F; border-bottom-color: rgba(111,185,143,0.15); }
 
 /* ── Shops strip (homepage) ── */
