@@ -71,12 +71,19 @@ $sell_url = function_exists( 'dokan_get_navigation_url' )
 <!-- ═══════════════════════════════════════════════════════
      HERO
 ════════════════════════════════════════════════════════ -->
-<section class="lt-hero">
+<?php
+$hero_bg      = get_option( 'lt_hero_bg_color', '' );
+$hero_color   = get_option( 'lt_hero_text_color', '' );
+$hero_style   = '';
+if ( $hero_bg )    $hero_style .= 'background:' . esc_attr( $hero_bg ) . ';';
+if ( $hero_color ) $hero_style .= 'color:' . esc_attr( $hero_color ) . ';';
+?>
+<section class="lt-hero"<?php echo $hero_style ? ' style="' . $hero_style . '"' : ''; ?>>
 	<div class="lt-hero__inner">
 
-		<p class="lt-hero__eyebrow">The Guitar Gear Marketplace</p>
+		<p class="lt-hero__eyebrow"><?php echo esc_html( get_option( 'lt_hero_eyebrow', 'The Guitar Tool Marketplace' ) ); ?></p>
 
-		<h1 class="lt-hero__title">Find Your Next<br>Piece of Tone</h1>
+		<h1 class="lt-hero__title"><?php echo wp_kses_post( get_option( 'lt_hero_headline', 'Find Your Next<br>Favorite Tool' ) ); ?></h1>
 
 		<form class="lt-hero__search" role="search" method="get" action="<?php echo esc_url( $shop_url ); ?>">
 			<input type="hidden" name="post_type" value="product">
