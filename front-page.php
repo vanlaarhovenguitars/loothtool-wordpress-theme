@@ -33,6 +33,7 @@ $vendors = function_exists( 'dokan' )
 	? dokan()->vendor->all( [
 		'number' => 20,
 		'status' => 'approved',
+		'role'   => 'seller',
 		'meta_query' => [ [
 			'key'     => '_lt_vendor_hidden',
 			'compare' => 'NOT EXISTS',
