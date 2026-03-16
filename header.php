@@ -8,7 +8,7 @@
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
-<script>if(localStorage.getItem('lt-dark')==='1')document.body.classList.add('lt-dark');</script>
+<script>if(localStorage.getItem('lt-dark')!=='0')document.body.classList.add('lt-dark');</script>
 
 <header class="lt-header" id="lt-header">
 	<div class="lt-header__inner">

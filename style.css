@@ -2429,25 +2429,32 @@ body.lt-dark hr { border-color: rgba(111,185,143,0.15); }
 /* ── Dark theme toggle button ── */
 .lt-dark-toggle {
   position: fixed;
-  bottom: 18px;
-  right: 18px;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #004445;
-  border: 1px solid rgba(111,185,143,0.35);
-  color: #6FB98F;
+  bottom: 20px;
+  right: 20px;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  min-height: 42px;
+  border-radius: 50% !important;
+  background: #004445 !important;
+  border: 2px solid #6FB98F !important;
+  color: #6FB98F !important;
   cursor: pointer;
-  display: flex;
+  display: flex !important;
   align-items: center;
   justify-content: center;
   z-index: 99999;
-  padding: 0;
-  transition: transform 0.2s ease, border-color 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+  padding: 0 !important;
+  overflow: hidden;
+  transition: transform 0.2s ease, background 0.2s ease;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.5);
+  line-height: 1;
+  text-transform: none !important;
+  font-size: 0 !important;
+  letter-spacing: 0 !important;
 }
-.lt-dark-toggle:hover { transform: scale(1.12); border-color: #6FB98F; }
-.lt-dark-toggle svg { pointer-events: none; }
+.lt-dark-toggle:hover { transform: scale(1.15) !important; background: #2C7873 !important; }
+.lt-dark-toggle svg { pointer-events: none; flex-shrink: 0; }
 .lt-dark-toggle .lt-icon-sun { display: none; }
 .lt-dark-toggle .lt-icon-moon { display: block; }
 body.lt-dark .lt-dark-toggle .lt-icon-sun { display: block; }
