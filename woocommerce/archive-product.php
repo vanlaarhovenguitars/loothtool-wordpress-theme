@@ -39,21 +39,7 @@ $vendors = function_exists( 'dokan' )
 		<p class="lt-shop-brand">Loothtool<br>.com</p>
 		<div class="lt-shop-brand-line"></div>
 
-		<?php if ( ! empty( $product_cats ) && ! is_wp_error( $product_cats ) ) : ?>
-			<ul class="lt-cat-list">
-				<?php foreach ( $product_cats as $cat ) :
-					$url     = get_term_link( $cat );
-					$current = is_tax( 'product_cat', $cat->term_id ) ? 'current' : '';
-				?>
-					<li>
-						<a href="<?php echo esc_url( $url ); ?>"<?php echo $current ? ' class="current"' : ''; ?>>
-							<?php echo esc_html( strtoupper( $cat->name ) ); ?>
-							<span class="lt-cat-count">(<?php echo absint( $cat->count ); ?>)</span>
-						</a>
-					</li>
-				<?php endforeach; ?>
-			</ul>
-		<?php endif; ?>
+		<?php /* categories hidden — not ready yet */ ?>
 	</aside>
 
 	<!-- Center: product grid -->
