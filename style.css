@@ -2371,10 +2371,10 @@ body.lt-dark .woocommerce-Price-amount { color: #ddeae6 !important; }
 body.lt-dark .lt-cat-list a { color: #ddeae6; }
 body.lt-dark .lt-shops-heading { color: #6FB98F; }
 body.lt-dark .lt-vendor-logo { border-color: rgba(111,185,143,0.2); }
-body.lt-dark .lt-vendor-logo img,
-body.lt-dark .lt-store-logo img,
-body.lt-dark .lt-vendor-tile__logo img,
-body.lt-dark .lt-shop-chip__img img { filter: invert(1); }
+/* Per-vendor logo invert — opt-in via _lt_logo_invert user meta */
+body.lt-dark .lt-vendor-logo--invert img,
+body.lt-dark .lt-store-logo--invert img,
+body.lt-dark .lt-shop-chip--invert img { filter: invert(1); }
 body.lt-dark .lt-shop-brand { color: #6FB98F; }
 
 /* ── Shops strip (homepage) ── */

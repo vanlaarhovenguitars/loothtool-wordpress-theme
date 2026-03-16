@@ -137,7 +137,7 @@ $vendors = function_exists( 'dokan' )
 						<a href="<?php echo esc_url( $store_url ); ?>" title="<?php echo esc_attr( $store_name ); ?>">
 							<img src="<?php echo esc_url( $logo_url ); ?>"
 							     alt="<?php echo esc_attr( $store_name ); ?>"
-							     class="lt-vendor-logo"
+							     class="lt-vendor-logo<?php echo get_user_meta( $vid, '_lt_logo_invert', true ) ? ' lt-vendor-logo--invert' : ''; ?>"
 							     loading="lazy">
 						</a>
 					</li>

@@ -122,7 +122,7 @@ if ( $hero_color ) $hero_style .= 'color:' . esc_attr( $hero_color ) . ';';
 							? wp_get_attachment_image_url( $logo_id, 'medium' )
 							: get_avatar_url( $vid, [ 'size' => 150 ] );
 					?>
-						<a class="lt-shop-chip" href="<?php echo esc_url( $store_url ); ?>">
+						<a class="lt-shop-chip<?php echo get_user_meta( , _lt_logo_invert, true ) ?  lt-shop-chip--invert : ; ?>" href="<?php echo esc_url( $store_url ); ?>">
 							<span class="lt-shop-chip__img">
 								<img src="<?php echo esc_url( $logo_url ); ?>"
 								     alt="<?php echo esc_attr( $store_name ); ?>"
