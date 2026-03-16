@@ -35,12 +35,13 @@ while ( have_posts() ) :
 	<nav class="lt-breadcrumb" aria-label="Breadcrumb">
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a>
 		<?php
-		$terms = get_the_terms( get_the_ID(), 'product_cat' );
-		if ( $terms && ! is_wp_error( $terms ) ) :
-			$term = reset( $terms );
-			?>
+		$bc_vendor_id   = (int) get_post_field( 'post_author', get_the_ID() );
+		$bc_store_info  = function_exists( 'dokan_get_store_info' ) ? dokan_get_store_info( $bc_vendor_id ) : [];
+		$bc_store_name  = ! empty( $bc_store_info['store_name'] ) ? $bc_store_info['store_name'] : get_the_author_meta( 'display_name', $bc_vendor_id );
+		$bc_store_url   = function_exists( 'dokan_get_store_url' ) ? dokan_get_store_url( $bc_vendor_id ) : get_author_posts_url( $bc_vendor_id );
+		if ( $bc_store_name ) : ?>
 			<span>/</span>
-			<a href="<?php echo esc_url( get_term_link( $term ) ); ?>"><?php echo esc_html( $term->name ); ?></a>
+			<a href="<?php echo esc_url( $bc_store_url ); ?>"><?php echo esc_html( $bc_store_name ); ?></a>
 		<?php endif; ?>
 		<span>/</span>
 		<?php the_title(); ?>
