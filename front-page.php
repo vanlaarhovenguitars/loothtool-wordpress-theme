@@ -12,7 +12,8 @@ defined( 'ABSPATH' ) || exit;
 get_header();
 
 // ── Recently listed products ──────────────────────────────────────────────────
-$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+// On static front pages WordPress uses 'page', not 'paged'
+$paged = ( get_query_var( 'page' ) ) ? (int) get_query_var( 'page' ) : 1;
 $featured_query = new WP_Query( [
 	'post_type'           => 'product',
 	'posts_per_page'      => 12,
