@@ -2546,8 +2546,14 @@ body:not(.lt-dark) th { color: #111111; }
 
 /* ── Single product page — dark mode ── */
 body.lt-dark .lt-summary__short-desc,
+body.lt-dark .lt-summary__short-desc p,
+body.lt-dark .lt-summary__short-desc * { color: #ddeae6 !important; }
+
 body.lt-dark .lt-summary__meta,
-body.lt-dark .lt-summary__meta span { color: rgba(221,234,230,0.75) !important; }
+body.lt-dark .lt-summary__meta p,
+body.lt-dark .lt-summary__meta span,
+body.lt-dark .lt-summary__meta * { color: #ddeae6 !important; }
+body.lt-dark .lt-summary__meta a { color: #6FB98F !important; }
 
 body.lt-dark .lt-summary__price,
 body.lt-dark .lt-summary__discount,
