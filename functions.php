@@ -53,6 +53,21 @@ function hello_elementor_child_scripts_styles() {
 add_action( 'wp_enqueue_scripts', 'hello_elementor_child_scripts_styles', 20 );
 
 /**
+ * Enqueue shop carousel JS on the front page.
+ */
+function lt_enqueue_shop_carousel() {
+	if ( ! is_front_page() ) return;
+	wp_enqueue_script(
+		'lt-shop-carousel',
+		get_stylesheet_directory_uri() . '/assets/shop-carousel.js',
+		[],
+		HELLO_ELEMENTOR_CHILD_VERSION,
+		true
+	);
+}
+add_action( 'wp_enqueue_scripts', 'lt_enqueue_shop_carousel', 20 );
+
+/**
  * Enqueue search autocomplete JS on the front page only.
  */
 function lt_enqueue_search_autocomplete() {

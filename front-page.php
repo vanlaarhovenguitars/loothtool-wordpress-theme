@@ -41,7 +41,8 @@ $vendors_raw = function_exists( 'dokan' )
 	] )
 	: [];
 
-// Pin featured vendors first: VL Guitar Repair (buckvanlaarhoven=6), then Looth Prints (loothprints=126).
+// Place VL Guitar Repair (ID 6) and Looth Prints (ID 126) at the visual center
+// so the center-zoom carousel effect naturally highlights them on load.
 $featured_ids = [ 6, 126 ];
 $featured     = [];
 $rest         = [];
@@ -54,7 +55,12 @@ foreach ( $vendors_raw as $v ) {
 	}
 }
 ksort( $featured );
-$vendors = array_merge( array_values( $featured ), $rest );
+$half    = (int) ceil( count( $rest ) / 2 );
+$vendors = array_merge(
+	array_slice( $rest, 0, $half ),
+	array_values( $featured ),
+	array_slice( $rest, $half )
+);
 
 $shop_url = get_permalink( wc_get_page_id( 'shop' ) );
 $sell_url = function_exists( 'dokan_get_navigation_url' )
@@ -109,7 +115,7 @@ $sell_url = function_exists( 'dokan_get_navigation_url' )
 							? wp_get_attachment_image_url( $logo_id, 'medium' )
 							: get_avatar_url( $vid, [ 'size' => 150 ] );
 					?>
-						<a class="lt-shop-chip<?php echo in_array( $vid, $featured_ids, true ) ? ' lt-shop-chip--featured' : ''; ?>" href="<?php echo esc_url( $store_url ); ?>">
+						<a class="lt-shop-chip" href="<?php echo esc_url( $store_url ); ?>">
 							<span class="lt-shop-chip__img">
 								<img src="<?php echo esc_url( $logo_url ); ?>"
 								     alt="<?php echo esc_attr( $store_name ); ?>"

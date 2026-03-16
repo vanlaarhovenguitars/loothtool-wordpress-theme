@@ -1326,14 +1326,15 @@ table tr:hover td { background: var(--lt-gray-hover); }
 
 .lt-shops-strip {
   display: flex;
-  gap: 20px;
+  gap: 24px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;       /* Firefox */
+  scrollbar-width: none;
   flex: 1;
-  padding: 6px 0;
+  padding: 28px 0;
   justify-content: center;
+  align-items: center;
 }
 .lt-shops-strip::-webkit-scrollbar { display: none; }
 
@@ -1344,10 +1345,10 @@ table tr:hover td { background: var(--lt-gray-hover); }
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  scroll-snap-align: start;
-  transition: transform var(--lt-transition);
+  scroll-snap-align: center;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center center;
 }
-.lt-shop-chip:hover { transform: translateY(-3px); }
 
 .lt-shop-chip__img {
   width: 80px;
@@ -1359,19 +1360,6 @@ table tr:hover td { background: var(--lt-gray-hover); }
   display: block;
   transition: border-color var(--lt-transition);
 }
-.lt-shop-chip:hover .lt-shop-chip__img { border-color: var(--lt-gold); }
-
-.lt-shop-chip--featured .lt-shop-chip__img {
-  width: 96px;
-  height: 96px;
-  border-color: var(--lt-gold);
-  border-width: 3px;
-}
-.lt-shop-chip--featured .lt-shop-chip__name {
-  max-width: 96px;
-  font-size: 0.72rem;
-  color: var(--lt-olive);
-}
 
 .lt-shop-chip__img img {
   width: 100%;
@@ -1380,7 +1368,6 @@ table tr:hover td { background: var(--lt-gray-hover); }
   display: block;
   transition: transform 0.35s ease;
 }
-.lt-shop-chip:hover .lt-shop-chip__img img { transform: scale(1.08); }
 
 .lt-shop-chip__name {
   font-family: var(--lt-font-heading);
