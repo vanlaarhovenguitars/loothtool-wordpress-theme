@@ -1385,8 +1385,7 @@ table tr:hover td { background: var(--lt-gray-hover); }
   gap: 8px;
   text-decoration: none;
   scroll-snap-align: center;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  transform-origin: center center;
+  transition: opacity 0.3s ease;
 }
 
 .lt-shop-chip__img {
@@ -1844,8 +1843,6 @@ table tr:hover td { background: var(--lt-gray-hover); }
   }
   .lt-shops-strip-wrap .lt-shops-strip-label { margin-bottom: 4px; }
   .lt-shops-strip-wrap .lt-shops-strip { padding: 4px 0 8px; overflow-x: auto; overflow-y: hidden; }
-  .lt-shops-strip-wrap .lt-shop-chip__img { width: 56px !important; height: 56px !important; min-width: 0 !important; min-height: 0 !important; overflow: hidden !important; }
-  .lt-shops-strip-wrap .lt-shop-chip__img img { width: 56px !important; height: 56px !important; max-width: 56px !important; max-height: 56px !important; }
   .lt-shops-strip-wrap .lt-shop-chip { gap: 4px; }
   body.lt-dark .lt-shops-strip-wrap {
     background: #021C1E;

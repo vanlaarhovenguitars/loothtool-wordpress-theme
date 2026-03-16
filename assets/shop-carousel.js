@@ -17,9 +17,8 @@
 			var dist       = Math.abs( center - chipCenter );
 			var maxDist    = rect.width * 0.52;
 			var t          = Math.min( dist / maxDist, 1 );
-			var scale      = ( 1.28 - t * 0.38 ).toFixed( 3 ); // 1.28 → 0.90
 			var opacity    = ( 1 - t * 0.45 ).toFixed( 2 );    // 1.0  → 0.55
-			chip.style.transform = 'scale(' + scale + ')';
+			chip.style.transform = '';
 			chip.style.opacity   = opacity;
 		} );
 	}
