@@ -1351,8 +1351,8 @@ table tr:hover td { background: var(--lt-gray-hover); }
 }
 
 .lt-shop-chip__img {
-  width: 80px;
-  height: 80px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   overflow: hidden;
   border: 3px solid var(--lt-gray-border);
@@ -1378,7 +1378,7 @@ table tr:hover td { background: var(--lt-gray-hover); }
   color: var(--lt-black);
   text-align: center;
   line-height: 1.2;
-  max-width: 80px;
+  max-width: 96px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
