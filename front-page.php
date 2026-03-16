@@ -86,7 +86,7 @@ $sell_url = function_exists( 'dokan_get_navigation_url' )
 					<?php foreach ( $vendors as $vendor ) :
 						$vid        = $vendor->get_id();
 						$store_info = $vendor->get_shop_info();
-						$store_name = $store_info['store_name'] ?? $vendor->data->display_name;
+						$store_name = ! empty( $store_info['store_name'] ) ? $store_info['store_name'] : $vendor->data->display_name;
 						$store_url  = dokan_get_store_url( $vid );
 						$logo_id    = $store_info['gravatar'] ?? 0;
 						$logo_url   = $logo_id

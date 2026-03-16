@@ -122,7 +122,7 @@ while ( have_posts() ) :
 				<div class="lt-summary__video">
 					<?php
 					$video_id = '';
-					if ( preg_match( '/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/', $video_url, $m ) ) {
+					if ( is_string( $video_url ) && preg_match( '/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/', $video_url, $m ) ) {
 						$video_id = $m[1];
 					}
 					if ( $video_id ) : ?>

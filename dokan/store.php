@@ -21,9 +21,15 @@ $logo_url    = $logo_id
 $description = $store_info['store_description'] ?? '';
 
 // ── Loothtool custom branding meta ────────────────────────────────────────────
-$bio     = get_user_meta( $vendor_id, '_lt_vendor_bio', true ) ?: $description;
-$color   = get_user_meta( $vendor_id, '_lt_vendor_color', true ) ?: '#a42325';
-$youtube = get_user_meta( $vendor_id, '_lt_vendor_youtube', true );
+$bio        = get_user_meta( $vendor_id, '_lt_vendor_bio', true ) ?: $description;
+$color      = get_user_meta( $vendor_id, '_lt_vendor_color', true ) ?: '#a42325';
+$youtube    = get_user_meta( $vendor_id, '_lt_vendor_youtube', true );
+// Custom banner takes priority; fall back to Dokan's built-in banner field.
+$banner_id  = (int) get_user_meta( $vendor_id, '_lt_vendor_banner', true );
+if ( ! $banner_id ) {
+	$banner_id = (int) ( $store_info['banner'] ?? 0 );
+}
+$banner_url = $banner_id ? wp_get_attachment_image_url( $banner_id, 'full' ) : '';
 
 // Sanitize YouTube to embed URL
 $youtube_embed = '';
@@ -42,8 +48,10 @@ get_header();
 ════════════════════════════════════════════ -->
 <div class="lt-store-header" style="--lt-store-color: <?php echo esc_attr( $color ); ?>">
 
-	<!-- Banner gradient using vendor colour -->
-	<div class="lt-store-banner"></div>
+	<!-- Banner: photo if set, otherwise colour gradient -->
+	<div class="lt-store-banner<?php echo $banner_url ? ' lt-store-banner--image' : ''; ?>"
+	     <?php if ( $banner_url ) : ?>style="background-image: url('<?php echo esc_url( $banner_url ); ?>')"<?php endif; ?>>
+	</div>
 
 	<div class="lt-store-identity">
 		<div class="lt-store-logo-wrap">

@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'HELLO_ELEMENTOR_CHILD_VERSION', '2.0.1' );
+define( 'HELLO_ELEMENTOR_CHILD_VERSION', '2.0.6' );
 
 /**
  * Theme setup — menus, post thumbnails, WooCommerce support.
@@ -404,11 +404,22 @@ function lt_render_vendor_branding_section( $query_vars ) {
 		return;
 	}
 
-	$vendor_id = get_current_user_id();
-	$bio       = get_user_meta( $vendor_id, '_lt_vendor_bio', true );
-	$color     = get_user_meta( $vendor_id, '_lt_vendor_color', true ) ?: '#a42325';
-	$youtube   = get_user_meta( $vendor_id, '_lt_vendor_youtube', true );
-	$nonce     = wp_create_nonce( 'lt_vendor_branding' );
+	// Only render for logged-in vendors/sellers.
+	$current_user = wp_get_current_user();
+	if ( ! $current_user->ID || ! array_intersect( [ 'seller', 'vendor', 'administrator' ], (array) $current_user->roles ) ) {
+		return;
+	}
+
+	// Load WP media uploader scripts (needed for image picker).
+	wp_enqueue_media();
+
+	$vendor_id  = $current_user->ID;
+	$bio        = get_user_meta( $vendor_id, '_lt_vendor_bio', true );
+	$color      = get_user_meta( $vendor_id, '_lt_vendor_color', true ) ?: '#a42325';
+	$youtube    = get_user_meta( $vendor_id, '_lt_vendor_youtube', true );
+	$banner_id  = (int) get_user_meta( $vendor_id, '_lt_vendor_banner', true );
+	$banner_url = $banner_id ? wp_get_attachment_image_url( $banner_id, 'medium_large' ) : '';
+	$nonce      = wp_create_nonce( 'lt_vendor_branding' );
 	?>
 	<div class="lt-branding-section" id="lt-branding-section">
 		<h2 class="lt-branding-heading">Loothtool Store Branding</h2>
@@ -416,6 +427,31 @@ function lt_render_vendor_branding_section( $query_vars ) {
 
 		<form id="lt-branding-form" method="post">
 			<input type="hidden" name="lt_branding_nonce" value="<?php echo esc_attr( $nonce ); ?>">
+
+			<!-- Banner Image -->
+			<div class="lt-branding-field">
+				<label>Store Banner Image</label>
+				<input type="hidden" id="lt_vendor_banner_id" name="lt_vendor_banner_id"
+				       value="<?php echo esc_attr( $banner_id ?: '' ); ?>">
+				<div class="lt-banner-upload-wrap">
+					<div class="lt-banner-preview-wrap" id="lt-banner-preview-wrap"
+					     style="<?php echo $banner_url ? '' : 'display:none;'; ?>">
+						<img id="lt-banner-preview"
+						     src="<?php echo esc_url( $banner_url ); ?>"
+						     alt="Banner preview">
+					</div>
+					<div class="lt-banner-upload-actions">
+						<button type="button" class="lt-banner-upload-btn dokan-btn" id="lt-banner-upload-btn">
+							<?php echo $banner_url ? 'Change Banner' : 'Upload Banner'; ?>
+						</button>
+						<button type="button" class="lt-banner-remove-btn" id="lt-banner-remove-btn"
+						        style="<?php echo $banner_url ? '' : 'display:none;'; ?>">
+							Remove
+						</button>
+					</div>
+					<span class="lt-field-hint">Recommended: 1200 × 300 px. This appears at the top of your shop page.</span>
+				</div>
+			</div>
 
 			<!-- About / Bio -->
 			<div class="lt-branding-field">
@@ -431,7 +467,7 @@ function lt_render_vendor_branding_section( $query_vars ) {
 					<input type="color" id="lt_vendor_color" name="lt_vendor_color"
 					       value="<?php echo esc_attr( $color ); ?>">
 					<span class="lt-color-preview" style="background:<?php echo esc_attr( $color ); ?>"></span>
-					<span class="lt-color-hint">Shows as the banner on your shop page</span>
+					<span class="lt-color-hint">Used as banner background when no image is set</span>
 				</div>
 			</div>
 
@@ -451,18 +487,58 @@ function lt_render_vendor_branding_section( $query_vars ) {
 
 	<script>
 	(function(){
-		// Live color preview
+		// ── Banner media picker ──────────────────────────────────────
+		var bannerFrame;
+		var uploadBtn  = document.getElementById('lt-banner-upload-btn');
+		var removeBtn  = document.getElementById('lt-banner-remove-btn');
+		var bannerIdEl = document.getElementById('lt_vendor_banner_id');
+		var previewEl  = document.getElementById('lt-banner-preview');
+		var previewWrap= document.getElementById('lt-banner-preview-wrap');
+
+		if ( uploadBtn ) {
+			uploadBtn.addEventListener('click', function(e){
+				e.preventDefault();
+				if ( bannerFrame ) { bannerFrame.open(); return; }
+				bannerFrame = wp.media({
+					title:    'Select Banner Image',
+					button:   { text: 'Use as Banner' },
+					multiple: false,
+					library:  { type: 'image' }
+				});
+				bannerFrame.on('select', function(){
+					var att = bannerFrame.state().get('selection').first().toJSON();
+					bannerIdEl.value       = att.id;
+					previewEl.src          = att.url;
+					previewWrap.style.display = '';
+					uploadBtn.textContent  = 'Change Banner';
+					if ( removeBtn ) removeBtn.style.display = '';
+				});
+				bannerFrame.open();
+			});
+		}
+
+		if ( removeBtn ) {
+			removeBtn.addEventListener('click', function(e){
+				e.preventDefault();
+				bannerIdEl.value          = '';
+				previewWrap.style.display = 'none';
+				this.style.display        = 'none';
+				if ( uploadBtn ) uploadBtn.textContent = 'Upload Banner';
+			});
+		}
+
+		// ── Live color preview ───────────────────────────────────────
 		var colorInput = document.getElementById('lt_vendor_color');
 		var preview    = document.querySelector('.lt-color-preview');
-		if(colorInput && preview){
+		if ( colorInput && preview ) {
 			colorInput.addEventListener('input', function(){
 				preview.style.background = this.value;
 			});
 		}
 
-		// AJAX submit
+		// ── AJAX submit ──────────────────────────────────────────────
 		var form = document.getElementById('lt-branding-form');
-		if(!form) return;
+		if ( ! form ) return;
 		form.addEventListener('submit', function(e){
 			e.preventDefault();
 			var msg  = document.getElementById('lt-branding-msg');
@@ -498,7 +574,11 @@ function lt_save_vendor_branding() {
 		wp_send_json_error( 'Security check failed.' );
 	}
 
-	$vendor_id = get_current_user_id();
+	$vendor_id    = get_current_user_id();
+	$current_user = wp_get_current_user();
+	if ( ! array_intersect( [ 'seller', 'vendor', 'administrator' ], (array) $current_user->roles ) ) {
+		wp_send_json_error( 'Unauthorized.' );
+	}
 
 	update_user_meta( $vendor_id, '_lt_vendor_bio',     sanitize_textarea_field( wp_unslash( $_POST['lt_vendor_bio'] ?? '' ) ) );
 	update_user_meta( $vendor_id, '_lt_vendor_youtube', esc_url_raw( wp_unslash( $_POST['lt_vendor_youtube'] ?? '' ) ) );
@@ -507,6 +587,14 @@ function lt_save_vendor_branding() {
 	$color = sanitize_hex_color( wp_unslash( $_POST['lt_vendor_color'] ?? '' ) );
 	if ( $color ) {
 		update_user_meta( $vendor_id, '_lt_vendor_color', $color );
+	}
+
+	// Banner image (attachment ID, or 0/empty to remove)
+	$banner_id = absint( $_POST['lt_vendor_banner_id'] ?? 0 );
+	if ( $banner_id ) {
+		update_user_meta( $vendor_id, '_lt_vendor_banner', $banner_id );
+	} else {
+		delete_user_meta( $vendor_id, '_lt_vendor_banner' );
 	}
 
 	wp_send_json_success( 'Branding saved.' );
@@ -558,6 +646,11 @@ function lt_handle_vendor_toggle() {
 
 	$user_id = absint( $_GET['lt_toggle_vendor'] );
 	if ( ! wp_verify_nonce( $_GET['_wpnonce'] ?? '', 'lt_toggle_vendor_' . $user_id ) ) wp_die( 'Security check failed.' );
+
+	// Verify target user exists and is a vendor.
+	$target_user = get_userdata( $user_id );
+	if ( ! $target_user ) wp_die( 'Invalid user.' );
+	if ( ! array_intersect( [ 'seller', 'vendor' ], (array) $target_user->roles ) ) wp_die( 'Not a vendor.' );
 
 	$hidden = get_user_meta( $user_id, '_lt_vendor_hidden', true );
 	if ( $hidden ) {
