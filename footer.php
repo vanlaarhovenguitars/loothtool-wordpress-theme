@@ -35,7 +35,7 @@
 			$bug_url = 'https://github.com/vanlaarhovenguitars/loothtool-wordpress-theme/issues/new'
 				. '?labels=bug&title=[Bug]+&body='
 				. rawurlencode(
-					"**Page URL:**\n" . ( is_ssl() ? 'https' : 'http' ) . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . "\n\n"
+					"**Page URL:**\n" . esc_url_raw( ( is_ssl() ? 'https' : 'http' ) . '://' . sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ?? '' ) ) . sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) ) . "\n\n"
 					. "**Describe the bug:**\n\n"
 					. "**Steps to reproduce:**\n1. \n2. \n\n"
 					. "**Expected behaviour:**\n\n"
