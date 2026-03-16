@@ -581,7 +581,7 @@ table tr:hover td { background: var(--lt-gray-hover); }
   }
 
   /* Tables — prevent page-level horizontal scroll */
-  html, body { overflow-x: hidden !important; max-width: 100% !important; }
+  html, body { overflow-x: clip !important; max-width: 100% !important; }
   table { max-width: 100%; }
 
   /* Checkout stacks vertically */
@@ -645,7 +645,7 @@ table tr:hover td { background: var(--lt-gray-hover); }
 
   /* ── Page content wrapper ── */
   .page-content {
-    overflow-x: hidden !important;
+    overflow-x: clip !important;
     box-sizing: border-box !important;
     padding-left: 16px !important;
     padding-right: 16px !important;
