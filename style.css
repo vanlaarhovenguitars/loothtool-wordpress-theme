@@ -899,6 +899,7 @@ table tr:hover td { background: var(--lt-gray-hover); }
   justify-content: space-between;
   width: 100%;
   gap: 12px;
+  padding-right: 110px; /* clear the floating action buttons */
 }
 
 .lt-footer__copy {

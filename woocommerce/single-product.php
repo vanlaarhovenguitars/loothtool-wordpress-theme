@@ -101,9 +101,16 @@ while ( have_posts() ) :
 				<p class="lt-summary__discount"><?php echo esc_html( $discount_text ); ?></p>
 			<?php endif; ?>
 
-			<!-- Add to cart -->
+			<!-- Add to cart (remove WC hooks already rendered manually above) -->
 			<div class="lt-summary__cart">
-				<?php do_action( 'woocommerce_single_product_summary' ); ?>
+				<?php
+				remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_title',   5  );
+				remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_rating',  10 );
+				remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price',   20 );
+				remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 25 );
+				remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta',    40 );
+				remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_sharing', 50 );
+				do_action( 'woocommerce_single_product_summary' ); ?>
 			</div>
 
 			<!-- Category / tags meta -->
