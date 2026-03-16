@@ -2495,6 +2495,44 @@ body.lt-dark .panel { background: #0b2528 !important; border-color: rgba(111,185
 body.lt-dark .panel-heading { background: #0e2d30 !important; color: #ddeae6 !important; border-color: rgba(111,185,143,0.12) !important; }
 body.lt-dark .panel-body { background: #0b2528 !important; color: #ddeae6 !important; }
 
+/* ── Dokan orders page ── */
+/* Status filter tabs (All / Pending / Processing / …) */
+body.lt-dark .order-statuses-filter { background: transparent !important; }
+body.lt-dark .order-statuses-filter li a { color: #aac8be !important; }
+body.lt-dark .order-statuses-filter li a:hover { color: #6FB98F !important; }
+body.lt-dark .order-statuses-filter li.active a { color: #6FB98F !important; font-weight: 600; }
+
+/* Form inputs and selects (bulk-action selector, search, date pickers) */
+body.lt-dark .dokan-form-control,
+body.lt-dark select.dokan-form-control,
+body.lt-dark input.dokan-form-control,
+body.lt-dark textarea.dokan-form-control { background-color: #0b2528 !important; color: #ddeae6 !important; border-color: rgba(111,185,143,0.25) !important; }
+body.lt-dark select.dokan-form-control option { background: #0b2528; color: #ddeae6; }
+
+/* Default (gray) action buttons — View, Apply, etc. */
+body.lt-dark a.dokan-btn,
+body.lt-dark input[type="submit"].dokan-btn,
+body.lt-dark .dokan-btn { background-color: #0e2d30 !important; color: #ddeae6 !important; border-color: rgba(111,185,143,0.25) !important; }
+body.lt-dark a.dokan-btn:hover,
+body.lt-dark input[type="submit"].dokan-btn:hover,
+body.lt-dark .dokan-btn:hover { background-color: #6FB98F !important; color: #021C1E !important; border-color: #6FB98F !important; }
+
+/* Pagination (Bootstrap .pagination used in orders listing) */
+body.lt-dark .pagination-wrap .pagination > li > a,
+body.lt-dark .pagination-wrap .pagination > li > span { background-color: #0b2528 !important; color: #ddeae6 !important; border-color: rgba(111,185,143,0.25) !important; }
+body.lt-dark .pagination-wrap .pagination > li.active > a,
+body.lt-dark .pagination-wrap .pagination > li.active > span { background-color: #6FB98F !important; color: #021C1E !important; border-color: #6FB98F !important; }
+body.lt-dark .pagination-wrap .pagination > li.disabled > a { color: #4a6860 !important; }
+
+/* Dokan's own pagination component */
+body.lt-dark .dokan-pagination-container .dokan-pagination li a { background-color: #0b2528 !important; color: #ddeae6 !important; border-color: rgba(111,185,143,0.25) !important; }
+body.lt-dark .dokan-pagination-container .dokan-pagination li.active a { background-color: #6FB98F !important; color: #021C1E !important; border-color: #6FB98F !important; }
+
+/* Dokan alert boxes */
+body.lt-dark .dokan-error { background: #1c0b0b !important; color: #ddeae6 !important; border-color: rgba(178,28,35,0.4) !important; }
+body.lt-dark .dokan-message { background: #0b2528 !important; color: #ddeae6 !important; }
+body.lt-dark .dokan-info { background: #0b1a28 !important; color: #ddeae6 !important; }
+
 /* ── WC checkout / cart / account ── */
 body.lt-dark .woocommerce-checkout,
 body.lt-dark .woocommerce-cart,
@@ -2509,6 +2547,63 @@ body.lt-dark .woocommerce-checkout-review-order-table,
 body.lt-dark .cart_totals { background: #0b2528 !important; border-color: rgba(111,185,143,0.12) !important; }
 body.lt-dark .woocommerce-checkout #payment,
 body.lt-dark .woocommerce-checkout #payment .payment_methods { background: #0b2528 !important; border-color: rgba(111,185,143,0.12) !important; }
+
+/* ── WC Block Checkout dark mode ── */
+body.lt-dark .wp-block-woocommerce-checkout,
+body.lt-dark .wc-block-checkout { background: #021C1E !important; color: #ddeae6 !important; }
+
+/* Step headings & labels */
+body.lt-dark .wc-block-checkout__step-heading,
+body.lt-dark .wc-block-checkout__step-description,
+body.lt-dark .wc-block-components-text-input label,
+body.lt-dark .wc-block-components-select label,
+body.lt-dark .wc-block-components-combobox label,
+body.lt-dark .wc-block-components-checkbox label,
+body.lt-dark .wc-block-components-radio-control label,
+body.lt-dark .wc-block-components-form label { color: #ddeae6 !important; }
+
+/* Input fields */
+body.lt-dark .wc-block-components-text-input input,
+body.lt-dark .wc-block-components-select select,
+body.lt-dark .wc-block-components-combobox input,
+body.lt-dark .wc-block-components-text-input input:focus,
+body.lt-dark .wc-block-components-select select:focus {
+  background: #0b2528 !important;
+  color: #ddeae6 !important;
+  border-color: rgba(111,185,143,0.3) !important;
+}
+
+/* Dropdown options */
+body.lt-dark .wc-block-components-select select option { background: #0b2528; color: #ddeae6; }
+
+/* Payment methods panel */
+body.lt-dark .wc-block-components-payment-method-label,
+body.lt-dark .wc-block-components-payment-method-label__secondary-text,
+body.lt-dark .wc-block-components-radio-control__option-layout span { color: #ddeae6 !important; }
+body.lt-dark .wc-block-components-payment-methods,
+body.lt-dark .wc-block-checkout__payment-method { background: #0b2528 !important; border-color: rgba(111,185,143,0.12) !important; }
+
+/* Order summary sidebar */
+body.lt-dark .wc-block-checkout__sidebar,
+body.lt-dark .wp-block-woocommerce-checkout-order-summary-block,
+body.lt-dark .wc-block-order-summary,
+body.lt-dark .wc-block-components-order-summary { background: #0b2528 !important; color: #ddeae6 !important; border-color: rgba(111,185,143,0.12) !important; }
+body.lt-dark .wc-block-components-order-summary-item__description,
+body.lt-dark .wc-block-components-totals-item,
+body.lt-dark .wc-block-components-totals-item__label,
+body.lt-dark .wc-block-components-totals-item__value { color: #ddeae6 !important; }
+
+/* Dividers */
+body.lt-dark .wc-block-components-totals-item + .wc-block-components-totals-item { border-color: rgba(111,185,143,0.12) !important; }
+
+/* Terms checkbox & misc text */
+body.lt-dark .wc-block-checkout__terms,
+body.lt-dark .wc-block-checkout__terms a { color: #aec8c0 !important; }
+
+/* Express checkout area */
+body.lt-dark .wc-block-components-express-payment-continue-rule { color: #aec8c0 !important; }
+body.lt-dark .wc-block-components-express-payment-continue-rule::before,
+body.lt-dark .wc-block-components-express-payment-continue-rule::after { background: rgba(111,185,143,0.2) !important; }
 
 /* WC notices */
 body.lt-dark .woocommerce .woocommerce-error,
