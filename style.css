@@ -1843,7 +1843,9 @@ table tr:hover td { background: var(--lt-gray-hover); }
     border-bottom: 1px solid var(--lt-gray-border);
   }
   .lt-shops-strip-wrap .lt-shops-strip-label { margin-bottom: 4px; }
-  .lt-shops-strip-wrap .lt-shops-strip { padding: 6px 0 24px; overflow: visible; }
+  .lt-shops-strip-wrap .lt-shops-strip { padding: 4px 0 8px; overflow-x: auto; overflow-y: hidden; }
+  .lt-shops-strip-wrap .lt-shop-chip__img { width: 56px; height: 56px; }
+  .lt-shops-strip-wrap .lt-shop-chip { gap: 4px; }
   body.lt-dark .lt-shops-strip-wrap {
     background: #021C1E;
     border-bottom-color: rgba(111,185,143,0.12);
