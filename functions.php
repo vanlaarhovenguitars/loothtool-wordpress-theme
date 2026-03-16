@@ -53,6 +53,73 @@ function hello_elementor_child_scripts_styles() {
 add_action( 'wp_enqueue_scripts', 'hello_elementor_child_scripts_styles', 20 );
 
 /**
+ * Enqueue search autocomplete JS on the front page only.
+ */
+function lt_enqueue_search_autocomplete() {
+	if ( ! is_front_page() ) return;
+	wp_enqueue_script(
+		'lt-search-autocomplete',
+		get_stylesheet_directory_uri() . '/assets/search-autocomplete.js',
+		[],
+		HELLO_ELEMENTOR_CHILD_VERSION,
+		true
+	);
+	wp_localize_script( 'lt-search-autocomplete', 'ltSearch', [
+		'ajax_url' => admin_url( 'admin-ajax.php' ),
+		'nonce'    => wp_create_nonce( 'lt_search_nonce' ),
+		'shop_url' => wc_get_page_permalink( 'shop' ),
+	] );
+}
+add_action( 'wp_enqueue_scripts', 'lt_enqueue_search_autocomplete', 20 );
+
+/**
+ * AJAX handler: return up to 6 products matching the search query.
+ */
+function lt_ajax_search_products() {
+	check_ajax_referer( 'lt_search_nonce', 'nonce' );
+
+	$q = sanitize_text_field( wp_unslash( $_POST['q'] ?? '' ) );
+	if ( strlen( $q ) < 2 ) {
+		wp_send_json_success( [] );
+	}
+
+	$query = new WP_Query( [
+		's'              => $q,
+		'post_type'      => 'product',
+		'post_status'    => 'publish',
+		'posts_per_page' => 6,
+		'fields'         => 'ids',
+	] );
+
+	$results = [];
+	foreach ( $query->posts as $id ) {
+		$product = wc_get_product( $id );
+		if ( ! $product ) continue;
+
+		$img_id  = $product->get_image_id();
+		$img_url = $img_id
+			? wp_get_attachment_image_url( $img_id, 'thumbnail' )
+			: wc_placeholder_img_src( 'thumbnail' );
+
+		$vendor_id   = get_post_field( 'post_author', $id );
+		$vendor_name = get_user_meta( $vendor_id, 'dokan_store_name', true )
+			?: get_the_author_meta( 'display_name', $vendor_id );
+
+		$results[] = [
+			'url'    => get_permalink( $id ),
+			'name'   => $product->get_name(),
+			'price'  => wp_strip_all_tags( $product->get_price_html() ),
+			'vendor' => $vendor_name,
+			'img'    => $img_url ?: '',
+		];
+	}
+
+	wp_send_json_success( $results );
+}
+add_action( 'wp_ajax_lt_search_products',        'lt_ajax_search_products' );
+add_action( 'wp_ajax_nopriv_lt_search_products', 'lt_ajax_search_products' );
+
+/**
  * Inject mobile CSS in wp_footer (last in body) so it beats all Elementor
  * inline <style> blocks, including loop template styles injected mid-body.
  */
