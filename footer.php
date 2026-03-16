@@ -31,26 +31,10 @@
 
 		<div class="lt-footer__bottom">
 			<span class="lt-footer__copy">&copy; <?php echo date( 'Y' ); ?> Loothtool.com &mdash; All rights reserved.</span>
-			<button class="lt-footer__top" id="lt-scroll-top" aria-label="Scroll to top">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16" aria-hidden="true">
-					<polyline points="18 15 12 9 6 15"/>
-				</svg>
-			</button>
 		</div>
 
 	</div>
 </footer>
-
-<script>
-(function () {
-	var btn = document.getElementById('lt-scroll-top');
-	if (btn) {
-		btn.addEventListener('click', function () {
-			window.scrollTo({ top: 0, behavior: 'smooth' });
-		});
-	}
-})();
-</script>
 
 <?php wp_footer(); ?>
 </body>
