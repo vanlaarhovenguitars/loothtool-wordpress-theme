@@ -666,10 +666,8 @@ function lt_save_vendor_branding() {
 	update_user_meta( $vendor_id, '_lt_vendor_youtube', esc_url_raw( wp_unslash( $_POST['lt_vendor_youtube'] ?? '' ) ) );
 
 	// Validate hex color
-	$color = sanitize_hex_color( wp_unslash( $_POST['lt_vendor_color'] ?? '' ) );
-	if ( $color ) {
-		update_user_meta( $vendor_id, '_lt_vendor_color', $color );
-	}
+	$color = sanitize_hex_color( wp_unslash( $_POST['lt_vendor_color'] ?? '' ) ) ?: '#2C7873';
+	update_user_meta( $vendor_id, '_lt_vendor_color', $color );
 
 	// Banner image (attachment ID, or 0/empty to remove)
 	$banner_id = absint( $_POST['lt_vendor_banner_id'] ?? 0 );
@@ -726,8 +724,11 @@ function lt_handle_vendor_toggle() {
 	if ( ! isset( $_GET['lt_toggle_vendor'] ) ) return;
 	if ( ! current_user_can( 'manage_options' ) ) wp_die( 'Not allowed.' );
 
+	// Verify nonce before reading any user-supplied values.
 	$user_id = absint( $_GET['lt_toggle_vendor'] );
-	if ( ! wp_verify_nonce( $_GET['_wpnonce'] ?? '', 'lt_toggle_vendor_' . $user_id ) ) wp_die( 'Security check failed.' );
+	if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ?? '' ) ), 'lt_toggle_vendor_' . $user_id ) ) {
+		wp_die( 'Security check failed.' );
+	}
 
 	// Verify target user exists and is a vendor.
 	$target_user = get_userdata( $user_id );
