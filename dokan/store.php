@@ -44,6 +44,15 @@ get_header();
 ?>
 
 <!-- ═══════════════════════════════════════════
+     BREADCRUMB
+════════════════════════════════════════════ -->
+<nav class="lt-breadcrumb" aria-label="Breadcrumb">
+	<a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a>
+	<span>/</span>
+	<?php echo esc_html( $store_name ); ?>
+</nav>
+
+<!-- ═══════════════════════════════════════════
      VENDOR STORE HEADER
 ════════════════════════════════════════════ -->
 <div class="lt-store-header" style="--lt-store-color: <?php echo esc_attr( $color ); ?>">
