@@ -2542,3 +2542,64 @@ body:not(.lt-dark) p,
 body:not(.lt-dark) li,
 body:not(.lt-dark) td,
 body:not(.lt-dark) th { color: #111111; }
+
+/* ── Single product page — dark mode ── */
+body.lt-dark .lt-summary__short-desc,
+body.lt-dark .lt-summary__meta,
+body.lt-dark .lt-summary__meta span { color: rgba(221,234,230,0.75) !important; }
+
+body.lt-dark .lt-summary__price,
+body.lt-dark .lt-summary__discount,
+body.lt-dark .woocommerce-Price-amount,
+body.lt-dark .woocommerce-Price-currencySymbol { color: #ddeae6 !important; }
+
+/* Product description area */
+body.lt-dark .lt-product-desc,
+body.lt-dark .lt-product-desc p,
+body.lt-dark .lt-product-desc li,
+body.lt-dark .lt-product-desc span,
+body.lt-dark .lt-product-desc strong,
+body.lt-dark .lt-product-desc em { color: #ddeae6 !important; }
+
+body.lt-dark .lt-product-desc h2,
+body.lt-dark .lt-product-desc h3 {
+  color: #6FB98F !important;
+  border-bottom-color: rgba(111,185,143,0.2) !important;
+}
+
+/* Callout / highlight boxes inside descriptions (Gutenberg blocks, custom HTML) */
+body.lt-dark .lt-product-desc [style*="background"],
+body.lt-dark .lt-product-desc .wp-block-group,
+body.lt-dark .lt-product-desc .wp-block-callout,
+body.lt-dark .lt-product-desc blockquote,
+body.lt-dark .wp-block-group__inner-container { background: #0e2d30 !important; color: #ddeae6 !important; border-color: rgba(111,185,143,0.2) !important; }
+
+/* Force all text inside description to be readable */
+body.lt-dark .lt-product-desc * { color: #ddeae6 !important; }
+
+/* Breadcrumb */
+body.lt-dark .woocommerce-breadcrumb,
+body.lt-dark .woocommerce-breadcrumb a,
+body.lt-dark .woocommerce-breadcrumb span { color: rgba(221,234,230,0.55) !important; }
+
+/* Reviews toggle */
+body.lt-dark .lt-reviews-toggle { color: #ddeae6 !important; border-color: rgba(111,185,143,0.2) !important; }
+body.lt-dark .lt-reviews-toggle:hover { background: #0e2d30 !important; }
+body.lt-dark .lt-reviews-body,
+body.lt-dark .lt-reviews-body p,
+body.lt-dark .lt-reviews-body li { color: #ddeae6 !important; }
+
+/* ── Bug report link ── */
+.lt-bug-report {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.7rem;
+  color: rgba(111,185,143,0.35);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+.lt-bug-report:hover { color: rgba(111,185,143,0.7); }
+.lt-bug-report svg { flex-shrink: 0; opacity: 0.6; }

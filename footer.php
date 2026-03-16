@@ -31,6 +31,21 @@
 
 		<div class="lt-footer__bottom">
 			<span class="lt-footer__copy">&copy; <?php echo date( 'Y' ); ?> Loothtool.com &mdash; All rights reserved.</span>
+			<?php
+			$bug_url = 'https://github.com/vanlaarhovenguitars/loothtool-wordpress-theme/issues/new'
+				. '?labels=bug&title=[Bug]+&body='
+				. rawurlencode(
+					"**Page URL:**\n" . ( is_ssl() ? 'https' : 'http' ) . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . "\n\n"
+					. "**Describe the bug:**\n\n"
+					. "**Steps to reproduce:**\n1. \n2. \n\n"
+					. "**Expected behaviour:**\n\n"
+					. "**Screenshots:** (paste or drag in)"
+				);
+			?>
+			<a href="<?php echo esc_url( $bug_url ); ?>" target="_blank" rel="noopener" class="lt-bug-report">
+				<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+				Report a bug
+			</a>
 		</div>
 
 	</div>
