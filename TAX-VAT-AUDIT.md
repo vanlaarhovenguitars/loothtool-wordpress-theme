@@ -447,3 +447,290 @@ The key things that could get you hit with fees/penalties:
 - **Tax money going to vendors** instead of being remitted by you (wrong Dokan setting)
 
 **Don't switch to Shopify for tax reasons.** Instead, invest the $19-99/mo in a proper tax automation plugin and make sure Dokan's tax recipient is set to "Admin."
+
+---
+
+## 8. LEGAL FRAMEWORK REFERENCE — Marketplace Tax & VAT Laws
+
+This section documents the specific laws, directives, and frameworks that create Loothtool's tax obligations as a multi-vendor marketplace.
+
+### 8a. EU Deemed Supplier Rules (Article 14a, VAT Directive)
+
+**Legal basis:** Council Directive (EU) 2017/2455 (December 2017) and Council Directive (EU) 2019/1995 (November 2019) inserted **Article 14a** into the principal **VAT Directive 2006/112/EC**. Effective **1 July 2021**.
+
+**When does a marketplace become the "deemed supplier"?**
+
+Two trigger scenarios:
+
+1. **Article 14a(1) — Imported low-value goods:**
+   - Marketplace facilitates distance sales of goods imported from outside the EU
+   - Consignment value **≤ EUR 150**
+   - Applies regardless of seller establishment (EU or non-EU)
+   - Applies to B2C primarily
+
+2. **Article 14a(2) — Intra-EU supplies by non-EU sellers:**
+   - Non-EU-established seller makes B2C supplies of goods already within the EU via the marketplace
+   - **No value threshold** — applies to goods of any value
+   - Only applies to **B2C** (sales to non-taxable persons)
+
+**The two-supply fiction:** When Article 14a applies, the single sale is split into:
+1. A **B2B supply** from the underlying seller to the marketplace (exempt from VAT under Article 136a)
+2. A **B2C supply** from the marketplace to the end consumer (marketplace collects and remits VAT)
+
+VAT becomes chargeable at the time payment is accepted (Article 66a).
+
+```
+LOOTHTOOL APPLICABILITY:
+
+IF loothtool_vendor.established_in == "non-EU"
+  AND buyer.country IN eu_countries
+  AND buyer.is_business == false:
+    → Article 14a(2) applies
+    → Loothtool is the DEEMED SUPPLIER
+    → Must collect VAT at buyer's country rate
+    → Must report via OSS
+
+IF loothtool_vendor.ships_from == "outside EU"
+  AND consignment_value <= EUR 150:
+    → Article 14a(1) applies
+    → Loothtool is the DEEMED SUPPLIER
+    → Must collect VAT via IOSS
+
+IF loothtool_vendor.established_in == "EU"
+  AND goods_located_in == "EU":
+    → Article 14a does NOT apply
+    → Vendor handles own VAT (standard WooCommerce tax rules)
+    → Loothtool still has OSS obligations for cross-border EU sales
+```
+
+**What qualifies as "facilitating" a supply?** A marketplace qualifies if it:
+- Sets terms/conditions for the sale
+- Processes or enables customer payments
+- Handles ordering/delivery
+
+It does NOT qualify if it merely:
+- Processes payments
+- Lists or advertises goods
+- Redirects customers without further involvement
+
+**Loothtool clearly qualifies** — we set terms, process payments, and manage ordering.
+
+### 8b. ViDA Reforms (VAT in the Digital Age)
+
+**Status:** Adopted by EU Council on **11 March 2025**, published 25 March 2025, entered into force **14 April 2025**.
+
+Key changes relevant to Loothtool:
+
+| Change | Date | Impact |
+|--------|------|--------|
+| Extension to accommodation/transport platforms | 1 July 2028 (voluntary) / 1 Jan 2030 (mandatory) | Not directly relevant (physical goods) |
+| Proposed extension to EU sellers | **Dropped** | Loothtool not affected — EU vendor exemption stays |
+| Proposed removal of EUR 150 threshold | Under discussion | Would make ALL imported goods subject to deemed supplier rules |
+| B2B extension | Under discussion | Deemed supplier may extend to B2B marketplace transactions |
+| Single VAT Registration | 1 July 2028 | Simplifies compliance — one registration covers all EU |
+| Mandatory digital reporting (intra-EU B2B) | 1 July 2030 | New reporting requirements |
+
+**What to watch:** If the EUR 150 threshold is removed, every import facilitated by Loothtool (regardless of value) would trigger deemed supplier status. Plan for this.
+
+### 8c. UK Deemed Reseller Rules (HMRC)
+
+**Effective:** 1 January 2021 (predates EU rules by 6 months).
+
+| Scenario | Threshold | Who collects VAT? |
+|----------|-----------|-------------------|
+| Goods in UK, non-UK seller | **No threshold** (any value) | Marketplace |
+| Goods outside UK, value ≤ GBP 135 | GBP 135 | Marketplace charges at point of sale |
+| Goods outside UK, value > GBP 135 | GBP 135 | Import VAT at customs (buyer pays) |
+| UK-based seller | N/A | Seller (marketplace NOT currently responsible) |
+
+**Joint and several liability:** HMRC can hold marketplaces jointly and severally liable for unpaid VAT if the platform knew or should have known that an overseas seller was required to register but hadn't.
+
+**Platform data reporting (from January 2024):** Digital platforms must share detailed sales data with HMRC — seller names, addresses, dates of birth, tax IDs. First reporting deadline was 31 January 2025 for 2024 transactions.
+
+**Proposed extension:** Amazon has lobbied to extend deemed reseller to **all** sellers (including UK-established). If adopted, this would affect Loothtool's UK-based vendors. Independent analysis estimates GBP 3.2 billion in annual marketplace sales by VAT-evading sellers; estimated revenue capture GBP 700 million/year.
+
+```
+LOOTHTOOL UK OBLIGATIONS:
+
+FOR each order WHERE buyer.country == 'GB':
+  IF vendor.established_outside_uk AND goods_in_uk:
+    → Loothtool is deemed reseller for ALL values
+    → Collect 20% VAT at point of sale
+
+  IF vendor.established_outside_uk AND goods_outside_uk:
+    IF order.value <= GBP 135:
+      → Loothtool collects VAT at point of sale
+    ELSE:
+      → Import VAT at customs (buyer responsibility)
+      → Loothtool must provide customs declarations
+
+  IF vendor.established_in_uk:
+    → Vendor handles own VAT (for now)
+    → Monitor proposed extension to all sellers
+```
+
+### 8d. US Marketplace Facilitator Laws
+
+**Legal origin:** Supreme Court decision in *South Dakota v. Wayfair, Inc.* (2018) — states can require sales tax collection from businesses without physical presence.
+
+**Current status:** All states with a sales tax have enacted marketplace facilitator laws.
+
+**Common threshold:** $100,000 in sales OR 200 transactions per state per year (varies by state).
+
+**Key state variations:**
+
+| State | Notes |
+|-------|-------|
+| Alabama | Choice between 8% simplified sellers use tax OR reporting/notification |
+| Alaska | No state sales tax; local municipalities collect via ARSSTC ($100K/200 threshold) |
+| Colorado | Home-rule cities develop own marketplace facilitator laws separately |
+| Florida | Must actually collect payment from customer to qualify as facilitator |
+| DE, MT, NH, OR | No sales tax |
+
+**Seller obligations remain:** Vendors are still responsible for collecting/remitting on sales made OUTSIDE the marketplace (their own website, trade shows, physical stores). Some states require sellers to register independently if they exceed economic nexus thresholds on their own.
+
+```
+LOOTHTOOL US OBLIGATIONS:
+
+Loothtool is a marketplace facilitator in ALL states with MF laws.
+
+FOR each state:
+  IF loothtool_annual_sales(state) > nexus_threshold(state):
+    → Must register in that state
+    → Must collect sales tax on ALL orders shipped to that state
+    → Must file returns and remit tax to that state
+    → Vendors are relieved of collection duty for marketplace sales
+
+  Track nexus thresholds PER STATE — some are $100K, some are $500K
+  Track by CALENDAR YEAR or TRAILING 12 MONTHS (varies by state)
+```
+
+### 8e. Canada GST/HST/PST
+
+Canada requires non-resident vendors and marketplace operators to register for GST/HST if annual revenue from Canadian consumers exceeds **CAD 30,000** over a 12-month period. Marketplace operators collecting and remitting GST/HST relieve underlying sellers of that obligation (similar to US marketplace facilitator model).
+
+---
+
+## 9. HOW MAJOR PLATFORMS HANDLE DEEMED SUPPLIER
+
+### Amazon
+- Acts as deemed supplier for B2C sales by non-EU sellers to EU consumers
+- Sale split: seller deemed to sell to Amazon in warehouse (VAT-exempt B2B), Amazon sells to consumer (B2C, VAT collected)
+- Sellers must still declare exempt sale on VAT returns and remain registered
+- In US: collects and remits sales tax in all states with marketplace facilitator laws
+
+### Etsy
+- Collects/remits VAT on EU imports ≤ EUR 150 and UK imports ≤ GBP 135
+- Higher-value imports: buyer pays VAT/customs at delivery
+- Collects VAT on all digital items where it is deemed supplier
+- In US: collects/remits state sales tax under marketplace facilitator laws
+- Sellers remain responsible for orders above thresholds
+
+### Key Takeaway for Loothtool
+These platforms built bespoke tax systems costing millions. Loothtool's path is:
+1. Use WooCommerce tax engine + automated tax service (TaxJar/Avalara) for rate calculation
+2. Fix the commission plugin to retain tax at platform level
+3. Configure Dokan's tax recipient correctly
+4. Add vendor establishment tracking for deemed supplier determination
+
+---
+
+## 10. WOOCOMMERCE MARKETPLACE TAX GAP ANALYSIS
+
+### What Exists Today (Plugin Ecosystem)
+
+| Plugin | What It Does | What It Doesn't Do |
+|--------|-------------|-------------------|
+| **European VAT Compliance Assistant** (WP Overnight) | Place-of-supply rules, OSS/IOSS reporting, EUR 150/GBP 135 thresholds | Does NOT implement deemed supplier two-supply fiction |
+| **EU VAT Number** (WooCommerce) | Validates VAT numbers at checkout, removes VAT for B2B | Single-vendor only — no marketplace awareness |
+| **IOSS EU VAT for WooCommerce** | Import One Stop Shop reporting for low-value imports | No deemed supplier logic |
+| **Dokan Tax Fee Recipient** | Routes tax to admin or vendor | No seller establishment tracking, no split invoicing |
+
+### What Loothtool Would Need for Full Compliance
+
+```
+REQUIREMENTS — Deemed Supplier Implementation:
+
+1. SELLER ESTABLISHMENT TRACKING
+   → Add field to Dokan vendor profile: "Country of establishment"
+   → Distinguish EU-established, UK-established, non-EU/UK
+   → This determines whether Article 14a applies per-order
+
+2. AUTOMATIC DEEMED SUPPLIER LOGIC
+   → Per-order-item determination:
+      IF article_14a_applies(vendor, buyer, goods_location):
+        → Platform collects VAT on B2C leg
+        → Generate exempt B2B documentation for seller→platform leg
+      ELSE:
+        → Standard WooCommerce tax handling
+
+3. OSS/IOSS REGISTRATION
+   → Platform itself registers for OSS/IOSS (not individual sellers)
+   → Platform files consolidated returns
+
+4. SPLIT INVOICING
+   → Single order may contain items from multiple vendors
+   → Some items trigger deemed supplier, others don't
+   → Each requires different invoice treatment
+
+5. RECORD KEEPING
+   → 10-year retention of detailed records
+   → Available electronically on request to tax authorities
+```
+
+**Reality check:** Full deemed supplier implementation is a significant custom development effort. For Loothtool's current scale, the pragmatic approach is:
+
+1. **Fix the commission plugin** (immediate — stops tax leaking to vendors)
+2. **Install TaxJar/Avalara** (this week — accurate rate calculation)
+3. **Add vendor country field to Dokan** (short term — enables future deemed supplier logic)
+4. **Build deemed supplier logic only when EU/UK sales volume warrants it** (medium term)
+
+---
+
+## 11. LEGAL REFERENCES
+
+| Reference | Description |
+|-----------|-------------|
+| **VAT Directive 2006/112/EC, Article 14a** | Deemed supplier provision for marketplaces |
+| **VAT Directive 2006/112/EC, Article 136a** | VAT exemption for deemed B2B supply (seller → platform) |
+| **VAT Directive 2006/112/EC, Article 66a** | VAT chargeability at time of payment acceptance |
+| **Council Directive (EU) 2017/2455** | Introduced deemed supplier rules |
+| **Council Directive (EU) 2019/1995** | Refined the rules |
+| **ViDA package** (adopted 11 March 2025) | Extends deemed supplier to accommodation/transport; future reforms |
+| **South Dakota v. Wayfair, Inc.** (2018) | US Supreme Court — states can require remote seller tax collection |
+| **HMRC guidance** (updated 20 June 2025) | UK marketplace VAT obligations for overseas sellers |
+
+### Source URLs
+
+**EU legislation:**
+- Council Directive 2017/2455: https://eur-lex.europa.eu/eli/dir/2017/2455/oj/eng
+- Council Directive 2019/1995: https://eur-lex.europa.eu/eli/dir/2019/1995/oj/eng
+- VAT Directive consolidated text: https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:02006L0112-20220701
+- EC Explanatory Notes on VAT e-Commerce: https://vat-one-stop-shop.ec.europa.eu/system/files/2021-07/vatecommerceexplanatory_notes_28102020_en.pdf
+- ViDA adoption announcement: https://taxation-customs.ec.europa.eu/news/adoption-vat-digital-age-package-2025-03-11_en
+
+**UK:**
+- HMRC — VAT and overseas goods via online marketplaces: https://www.gov.uk/guidance/vat-and-overseas-goods-sold-to-customers-in-the-uk-using-online-marketplaces
+- HMRC — Overseas businesses using online marketplaces: https://www.gov.uk/guidance/vat-overseas-businesses-using-an-online-marketplace-to-sell-goods-in-the-uk
+- ICAEW — Extending deemed reseller rules: https://www.icaew.com/insights/tax-news/2025/nov-2025/extending-deemed-reseller-rules-to-combat-vat-fraud-can-it-work
+
+**US:**
+- Avalara — State-by-state marketplace facilitator laws: https://www.avalara.com/us/en/learn/guides/state-by-state-guide-to-marketplace-facilitator-laws.html
+- TaxJar — Marketplace facilitator laws explained: https://www.taxjar.com/sales-tax/marketplace-facilitator-laws
+- Stripe — Marketplace tax obligations guide: https://stripe.com/guides/understanding-the-tax-obligations-of-marketplaces-in-the-us
+
+**Platform-specific:**
+- Etsy customs/VAT collection: https://help.etsy.com/hc/en-us/articles/360000337247-Custom-Fees-and-Physical-VAT-Collection
+- Amazon as deemed reseller (Minefield Navigator): https://minefieldnavigator.com/en/knowledge-base/amazon-as-deemed-reseller
+- Non-EU merchants VAT registration under deemed supplier: https://www.essentiaglobalservices.com/why-non-eu-merchants-selling-on-online-marketplaces-under-deemed-supplier-model-are-still-required-to-vat-register-in-eu/
+
+**WooCommerce/Dokan:**
+- WP Overnight EU VAT Compliance: https://wpovernight.com/downloads/woocommerce-eu-vat-compliance/
+- WooCommerce IOSS EU VAT Plugin: https://woocommerce.com/products/ioss-eu-vat-for-woocommerce/
+- Dokan marketplace tax guidance: https://wedevs.com/blog/92782/know-your-marketplace-tax/
+
+**Analysis & commentary:**
+- Sovos — Marketplace facilitator tax collection in the EU: https://sovos.com/blog/vat/marketplace-facilitator-tax-collection-responsibilities-in-the-european-union/
+- PwC — ViDA overview: https://www.pwc.lu/en/newsletter/2025/vat-in-the-digital-age-vida.html
+- eClear — ViDA guide for marketplaces: https://eclear.com/vida-for-marketplaces-and-platforms/
+- Taxmatic — VAT for online marketplaces guide: https://www.taxmatic.com/wp-content/uploads/2024/08/VAT-for-Online-Marketplaces-and-Platforms-Taxmatic-Guide.pdf
