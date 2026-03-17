@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'HELLO_ELEMENTOR_CHILD_VERSION', '2.0.6' );
+define( 'HELLO_ELEMENTOR_CHILD_VERSION', '2.0.7' );
 
 /**
  * Theme setup — menus, post thumbnails, WooCommerce support.
@@ -475,6 +475,59 @@ function lt_mobile_override_css() {
 add_action( 'wp_footer', 'lt_mobile_override_css', 9999 );
 
 // ============================================================
+//  GIFT ORDER — checkout fields + order meta
+//  Uses WooCommerce Additional Checkout Fields API (block checkout)
+// ============================================================
+
+/**
+ * Register gift fields for WooCommerce Block Checkout.
+ */
+function lt_register_gift_checkout_fields() {
+	if ( ! function_exists( 'woocommerce_register_additional_checkout_field' ) ) {
+		return;
+	}
+
+	woocommerce_register_additional_checkout_field( [
+		'id'       => 'loothtool/is-gift',
+		'label'    => 'This order is a gift',
+		'location' => 'order',
+		'type'     => 'checkbox',
+	] );
+
+	woocommerce_register_additional_checkout_field( [
+		'id'         => 'loothtool/gift-message',
+		'label'      => 'Gift message (optional, 200 chars max)',
+		'location'   => 'order',
+		'type'       => 'text',
+		'attributes' => [
+			'maxLength'   => 200,
+			'placeholder' => 'Write a personal message to include with the order…',
+		],
+	] );
+}
+add_action( 'woocommerce_init', 'lt_register_gift_checkout_fields' );
+
+/**
+ * After block checkout processes, copy additional fields to our standard meta keys
+ * so the packing slip and vendor dashboard can read them consistently.
+ */
+function lt_gift_copy_block_fields( $order ) {
+	// WooCommerce block checkout stores additional fields with _wc_other/ prefix.
+	$is_gift = $order->get_meta( '_wc_other/loothtool/is-gift' );
+	if ( $is_gift === true || $is_gift === 'true' || $is_gift === '1' ) {
+		$order->update_meta_data( '_lt_is_gift', '1' );
+		$gift_msg = $order->get_meta( '_wc_other/loothtool/gift-message' );
+		if ( $gift_msg ) {
+			$msg = sanitize_textarea_field( $gift_msg );
+			$msg = mb_substr( $msg, 0, 200 );
+			$order->update_meta_data( '_lt_gift_message', $msg );
+		}
+		$order->save();
+	}
+}
+add_action( 'woocommerce_store_api_checkout_order_processed', 'lt_gift_copy_block_fields' );
+
+// ============================================================
 //  VENDOR BRANDING — dashboard fields + AJAX save
 // ============================================================
 
@@ -672,6 +725,10 @@ function lt_save_vendor_branding() {
 	// Banner image (attachment ID, or 0/empty to remove)
 	$banner_id = absint( $_POST['lt_vendor_banner_id'] ?? 0 );
 	if ( $banner_id ) {
+		$attachment = get_post( $banner_id );
+		if ( ! $attachment || $attachment->post_type !== 'attachment' || strpos( $attachment->post_mime_type, 'image/' ) !== 0 || (int) $attachment->post_author !== $vendor_id ) {
+			wp_send_json_error( 'Invalid banner image.' );
+		}
 		update_user_meta( $vendor_id, '_lt_vendor_banner', $banner_id );
 	} else {
 		delete_user_meta( $vendor_id, '_lt_vendor_banner' );

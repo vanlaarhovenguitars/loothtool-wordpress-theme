@@ -87,6 +87,7 @@ get_header();
 		        frameborder="0"
 		        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 		        allowfullscreen
+		        sandbox="allow-scripts allow-same-origin"
 		        loading="lazy"></iframe>
 	</div>
 </div>
@@ -135,14 +136,14 @@ get_header();
 
 			<!-- Pagination -->
 			<div class="lt-pagination">
-				<?php echo paginate_links( [
+				<?php echo wp_kses_post( paginate_links( [
 					'base'      => str_replace( 999999999, '%#%', esc_url( get_pagenum_link( 999999999 ) ) ),
 					'format'    => '?paged=%#%',
 					'current'   => max( 1, get_query_var( 'paged' ) ),
 					'total'     => $GLOBALS['wp_query']->max_num_pages,
 					'prev_text' => 'Previous',
 					'next_text' => 'Next',
-				] ); ?>
+				] ) ); ?>
 			</div>
 
 		<?php else : ?>

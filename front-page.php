@@ -75,8 +75,8 @@ $sell_url = function_exists( 'dokan_get_navigation_url' )
      HERO
 ════════════════════════════════════════════════════════ -->
 <?php
-$hero_bg      = get_option( 'lt_hero_bg_color', '' );
-$hero_color   = get_option( 'lt_hero_text_color', '' );
+$hero_bg      = sanitize_hex_color( get_option( 'lt_hero_bg_color', '' ) );
+$hero_color   = sanitize_hex_color( get_option( 'lt_hero_text_color', '' ) );
 $hero_style   = '';
 if ( $hero_bg )    $hero_style .= 'background:' . esc_attr( $hero_bg ) . ';';
 if ( $hero_color ) $hero_style .= 'color:' . esc_attr( $hero_color ) . ';';
@@ -186,12 +186,12 @@ if ( $hero_color ) $hero_style .= 'color:' . esc_attr( $hero_color ) . ';';
 
 		<?php if ( $featured_query->max_num_pages > 1 ) : ?>
 			<div class="lt-home-pagination">
-				<?php echo paginate_links( [
+				<?php echo wp_kses_post( paginate_links( [
 					'total'   => $featured_query->max_num_pages,
 					'current' => $paged,
 					'prev_text' => '← Prev',
 					'next_text' => 'Next →',
-				] ); ?>
+				] ) ); ?>
 			</div>
 		<?php endif; ?>
 

@@ -222,6 +222,7 @@ label {
 .woocommerce ul.products li.product,
 .woocommerce-page ul.products li.product {
   border: 1px solid var(--lt-gray-border);
+  border-radius: 12px;
   transition: box-shadow var(--lt-transition), transform var(--lt-transition);
   padding: 0 !important;
   overflow: hidden;
@@ -247,6 +248,7 @@ label {
   margin: 0 16px 16px !important;
   width: calc(100% - 32px) !important;
   text-align: center !important;
+  border-radius: 8px !important;
 }
 
 /* ── WooCommerce Product Images ── */
@@ -735,8 +737,10 @@ table tr:hover td { background: var(--lt-gray-hover); }
 .lt-nav__dropdown {
   display: none;
   position: absolute;
-  top: calc(100% + 8px);
+  top: 100%;
   left: 0;
+  padding-top: 8px;
+  background-clip: padding-box;
   background: var(--lt-white);
   border: 1px solid var(--lt-gray-border);
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
@@ -1061,6 +1065,7 @@ table tr:hover td { background: var(--lt-gray-hover); }
 .lt-product-card {
   background: var(--lt-white);
   border: 1px solid var(--lt-gray-border);
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -2431,7 +2436,7 @@ body.lt-dark .lt-breadcrumb { background: #021C1E; color: rgba(221,234,230,0.6);
 body.lt-dark .lt-breadcrumb a { color: rgba(221,234,230,0.6); }
 .lt-breadcrumb--store { margin-bottom: 0; padding: 8px 16px; }
 body.lt-dark .lt-store-header { background: #021C1E; }
-body.lt-dark .lt-store-identity { background: #021C1E; }
+body.lt-dark .lt-store-identity { background: transparent; }
 body.lt-dark .lt-store-name { color: #ddeae6; }
 body.lt-dark .lt-store-bio { color: rgba(221,234,230,0.7); }
 body.lt-dark .lt-store-products-wrap { background: #021C1E; }
@@ -2532,6 +2537,30 @@ body.lt-dark .dokan-pagination-container .dokan-pagination li.active a { backgro
 body.lt-dark .dokan-error { background: #1c0b0b !important; color: #ddeae6 !important; border-color: rgba(178,28,35,0.4) !important; }
 body.lt-dark .dokan-message { background: #0b2528 !important; color: #ddeae6 !important; }
 body.lt-dark .dokan-info { background: #0b1a28 !important; color: #ddeae6 !important; }
+
+/* Dokan orders filter bar — inputs, selects, Select2, date picker, export buttons */
+body.lt-dark .dokan-order-filter-serach { background: transparent !important; }
+body.lt-dark .dokan-order-filter-serach input,
+body.lt-dark .dokan-order-filter-serach select { background-color: #0b2528 !important; color: #ddeae6 !important; border-color: rgba(111,185,143,0.25) !important; }
+body.lt-dark .dokan-order-filter-serach .select2-selection--single { background-color: #0b2528 !important; border-color: rgba(111,185,143,0.25) !important; }
+body.lt-dark .dokan-order-filter-serach .select2-selection__rendered { color: #ddeae6 !important; }
+body.lt-dark .dokan-order-filter-serach .select2-selection__arrow b { border-color: #ddeae6 transparent transparent !important; }
+body.lt-dark .select2-dropdown { background-color: #0b2528 !important; border-color: rgba(111,185,143,0.25) !important; }
+body.lt-dark .select2-search--dropdown .select2-search__field { background-color: #0e2d30 !important; color: #ddeae6 !important; border-color: rgba(111,185,143,0.25) !important; }
+body.lt-dark .select2-results__option { background-color: #0b2528 !important; color: #ddeae6 !important; }
+body.lt-dark .select2-results__option--highlighted { background-color: #6FB98F !important; color: #021C1E !important; }
+body.lt-dark .reportrange-text { background-color: #0b2528 !important; color: #ddeae6 !important; border-color: rgba(111,185,143,0.25) !important; }
+body.lt-dark .daterangepicker { background-color: #0b2528 !important; border-color: rgba(111,185,143,0.25) !important; }
+body.lt-dark .daterangepicker .calendar-table { background-color: #0b2528 !important; border-color: rgba(111,185,143,0.25) !important; }
+body.lt-dark .daterangepicker td,
+body.lt-dark .daterangepicker th { color: #ddeae6 !important; }
+body.lt-dark .daterangepicker td.available:hover,
+body.lt-dark .daterangepicker th.available:hover { background-color: #0e2d30 !important; }
+body.lt-dark .daterangepicker td.active { background-color: #6FB98F !important; color: #021C1E !important; }
+body.lt-dark .daterangepicker td.in-range { background-color: #0e2d30 !important; }
+body.lt-dark .daterangepicker .drp-buttons { border-color: rgba(111,185,143,0.25) !important; }
+body.lt-dark .dokan-order-filter-serach .dokan-right .dokan-btn { background-color: #0e2d30 !important; color: #ddeae6 !important; border-color: rgba(111,185,143,0.25) !important; }
+body.lt-dark .dokan-order-filter-serach .dokan-right .dokan-btn:hover { background-color: #6FB98F !important; color: #021C1E !important; }
 
 /* ── WC checkout / cart / account ── */
 body.lt-dark .woocommerce-checkout,
@@ -2774,3 +2803,80 @@ body.lt-dark .lt-reviews-body li { color: #ddeae6 !important; }
 }
 .lt-bug-report:hover { color: rgba(111,185,143,0.7); }
 .lt-bug-report svg { flex-shrink: 0; opacity: 0.6; }
+
+/* ── DOOM Easter Egg ── */
+#lt-doom {
+  position: fixed; inset: 0; z-index: 999999;
+  background: #000; display: flex; flex-direction: column;
+  opacity: 0; transition: opacity .4s;
+}
+#lt-doom.on { opacity: 1; }
+
+.lt-doom-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 16px; background: #1a0000;
+  border-bottom: 2px solid var(--lt-red); flex-shrink: 0;
+}
+.lt-doom-t {
+  color: var(--lt-red); font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 13px;
+  text-transform: uppercase; letter-spacing: 3px;
+}
+.lt-doom-x {
+  background: 0 0; border: 0; color: var(--lt-red);
+  font-size: 26px; cursor: pointer; padding: 0 4px; line-height: 1;
+}
+.lt-doom-x:hover { color: #ff4444; }
+
+.lt-doom-stage {
+  flex: 1; overflow: hidden; background: #000; position: relative;
+}
+/* js-dos v8: root player fills stage */
+.lt-doom-stage .jsdos-rso,
+.lt-doom-stage .jsdos-rso .frame-root,
+.lt-doom-stage .jsdos-rso .frame { width: 100% !important; height: 100% !important; }
+/* hide the sidebar so canvas is centered */
+.lt-doom-stage .jsdos-rso .sidebar { display: none !important; width: 0 !important; min-width: 0 !important; }
+/* game window fills full width */
+.lt-doom-stage .jsdos-rso .window { flex: 1 !important; width: 100% !important; height: 100% !important; }
+.lt-doom-stage .jsdos-rso canvas { display: block; }
+
+.lt-doom-msg {
+  color: var(--lt-red); font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px; text-transform: uppercase; letter-spacing: 3px;
+  animation: lt-blink 1s infinite;
+}
+@keyframes lt-blink { 0%,100%{ opacity:1 } 50%{ opacity:.3 } }
+
+.lt-doom-splash {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: radial-gradient(ellipse at center, #1a0000 0%, #000 80%);
+}
+.lt-doom-splash-text {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 900;
+  font-size: clamp(60px, 12vw, 140px); color: var(--lt-red);
+  text-transform: uppercase; letter-spacing: 12px;
+  text-shadow: 0 0 40px rgba(164,35,37,0.6), 0 0 80px rgba(164,35,37,0.3);
+  margin-bottom: 32px; line-height: 1;
+}
+.lt-doom-play {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+  font-size: 18px; text-transform: uppercase; letter-spacing: 4px;
+  color: #fff; background: var(--lt-red); border: 2px solid #ff4444;
+  padding: 14px 48px; cursor: pointer; transition: all .2s;
+}
+.lt-doom-play:hover { background: #c0292b; transform: scale(1.05); box-shadow: 0 0 30px rgba(164,35,37,0.5); }
+.lt-doom-hint {
+  margin-top: 20px; font-family: 'Inter', sans-serif;
+  font-size: 12px; color: rgba(255,255,255,0.3); letter-spacing: 1px;
+}
+
+body.lt-glitch { animation: lt-glitch .1s infinite; }
+@keyframes lt-glitch {
+  0%   { filter: hue-rotate(0)   brightness(1)   }
+  25%  { filter: hue-rotate(90deg) brightness(1.5) }
+  50%  { filter: hue-rotate(180deg) brightness(.5) }
+  75%  { filter: hue-rotate(270deg) brightness(1.3) }
+  100% { filter: hue-rotate(360deg) brightness(1)   }
+}

@@ -44,7 +44,7 @@ while ( have_posts() ) :
 			<a href="<?php echo esc_url( $bc_store_url ); ?>"><?php echo esc_html( $bc_store_name ); ?></a>
 		<?php endif; ?>
 		<span>/</span>
-		<?php the_title(); ?>
+		<?php echo esc_html( get_the_title() ); ?>
 	</nav>
 
 	<!-- Top: gallery + summary -->
@@ -82,7 +82,7 @@ while ( have_posts() ) :
 		<!-- Summary -->
 		<div class="lt-summary">
 
-			<h1 class="lt-summary__title"><?php the_title(); ?></h1>
+			<h1 class="lt-summary__title"><?php echo esc_html( get_the_title() ); ?></h1>
 
 			<?php if ( $product->get_short_description() ) : ?>
 				<div class="lt-summary__short-desc">
@@ -129,9 +129,10 @@ while ( have_posts() ) :
 					if ( $video_id ) : ?>
 						<iframe src="https://www.youtube-nocookie.com/embed/<?php echo esc_attr( $video_id ); ?>"
 						        title="Product video"
+						        sandbox="allow-scripts allow-same-origin"
 						        allowfullscreen
 						        loading="lazy"></iframe>
-					<?php else : ?>
+					<?php elseif ( preg_match( '/^https?:\/\//i', $video_url ) ) : ?>
 						<video src="<?php echo esc_url( $video_url ); ?>" controls></video>
 					<?php endif; ?>
 				</div>

@@ -101,14 +101,14 @@ $vendors = function_exists( 'dokan' )
 			<!-- Pagination -->
 			<div class="lt-pagination">
 				<?php
-				echo paginate_links( [
+				echo wp_kses_post( paginate_links( [
 					'base'      => str_replace( 999999999, '%#%', esc_url( get_pagenum_link( 999999999 ) ) ),
 					'format'    => '?paged=%#%',
 					'current'   => max( 1, get_query_var( 'paged' ) ),
 					'total'     => wc_get_loop_prop( 'total_pages' ),
 					'prev_text' => 'Previous',
 					'next_text' => 'Next',
-				] );
+				] ) );
 				?>
 			</div>
 

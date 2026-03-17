@@ -8,7 +8,7 @@
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
-<script>if(localStorage.getItem('lt-dark')!=='0')document.body.classList.add('lt-dark');</script>
+<script>if(localStorage.getItem('lt-dark')!=='0'&&!window.location.pathname.includes('/dashboard/'))document.body.classList.add('lt-dark');</script>
 
 <header class="lt-header" id="lt-header">
 	<div class="lt-header__inner">
@@ -17,20 +17,28 @@
 			<ul class="lt-nav__list">
 				<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Loothtool.com</a></li>
 
+				<?php if ( function_exists( 'wc_get_page_permalink' ) ) : ?>
 				<li class="lt-nav__item--dropdown">
 					<a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>" class="lt-nav__dropdown-toggle">
 						My Account <span class="lt-nav__arrow" aria-hidden="true">&#9662;</span>
 					</a>
 					<ul class="lt-nav__dropdown">
-						<?php foreach ( wc_get_account_menu_items() as $endpoint => $label ) : ?>
-							<li>
-								<a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>">
-									<?php echo esc_html( $label ); ?>
-								</a>
-							</li>
-						<?php endforeach; ?>
+						<?php if ( is_user_logged_in() ) : ?>
+							<?php if ( function_exists( 'wc_get_account_menu_items' ) && function_exists( 'wc_get_account_endpoint_url' ) ) : ?>
+							<?php foreach ( wc_get_account_menu_items() as $endpoint => $label ) : ?>
+								<li>
+									<a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>">
+										<?php echo esc_html( $label ); ?>
+									</a>
+								</li>
+							<?php endforeach; ?>
+							<?php endif; ?>
+						<?php else : ?>
+							<li><a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>">Log In</a></li>
+						<?php endif; ?>
 					</ul>
 				</li>
+				<?php endif; ?>
 
 				<li><a href="https://loothgroup.com" target="_blank" rel="noopener">Loothgroup.com</a></li>
 			</ul>
@@ -38,16 +46,18 @@
 
 		<div class="lt-header__actions">
 			<?php if ( is_user_logged_in() ) : ?>
-				<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'dashboard' ) ); ?>" class="lt-header__account-link">
+				<a href="<?php echo function_exists( 'wc_get_account_endpoint_url' ) ? esc_url( wc_get_account_endpoint_url( 'dashboard' ) ) : '#'; ?>" class="lt-header__account-link">
 					<?php echo esc_html( wp_get_current_user()->display_name ); ?>
 				</a>
 			<?php else : ?>
+				<?php if ( function_exists( 'wc_get_page_permalink' ) ) : ?>
 				<a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>" class="lt-header__account-link">Sign In</a>
 				<span class="lt-header__sep">|</span>
 				<a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>" class="lt-header__account-link">Sign Up</a>
+				<?php endif; ?>
 			<?php endif; ?>
 
-			<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="lt-cart-link" aria-label="Cart">
+			<a href="<?php echo function_exists( 'wc_get_cart_url' ) ? esc_url( wc_get_cart_url() ) : '#'; ?>" class="lt-cart-link" aria-label="Cart">
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true">
 					<path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
 				</svg>

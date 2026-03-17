@@ -44,12 +44,12 @@
 			}
 			var html = '';
 			res.data.forEach( function( p ) {
-				html += '<a class="lt-search-dropdown__item" href="' + p.url + '">' +
-					'<img class="lt-search-dropdown__img" src="' + p.img + '" alt="" loading="lazy">' +
+				html += '<a class="lt-search-dropdown__item" href="' + escHtml(p.url) + '">' +
+					'<img class="lt-search-dropdown__img" src="' + escHtml(p.img) + '" alt="" loading="lazy">' +
 					'<div class="lt-search-dropdown__info">' +
-						'<div class="lt-search-dropdown__name">' + p.name + '</div>' +
+						'<div class="lt-search-dropdown__name">' + escHtml(p.name) + '</div>' +
 						'<div class="lt-search-dropdown__meta">' +
-							'<span class="lt-search-dropdown__vendor">' + p.vendor + '</span>' +
+							'<span class="lt-search-dropdown__vendor">' + escHtml(p.vendor) + '</span>' +
 							'<span class="lt-search-dropdown__price">' + p.price + '</span>' +
 						'</div>' +
 					'</div>' +

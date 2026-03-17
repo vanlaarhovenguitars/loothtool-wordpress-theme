@@ -30,12 +30,12 @@
 		<div class="lt-footer__divider"></div>
 
 		<div class="lt-footer__bottom">
-			<span class="lt-footer__copy">&copy; <?php echo date( 'Y' ); ?> Loothtool.com &mdash; All rights reserved.</span>
+			<span class="lt-footer__copy">&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> Loothtool.com &mdash; All rights reserved.</span>
 			<?php
 			$bug_url = 'https://github.com/vanlaarhovenguitars/loothtool-wordpress-theme/issues/new'
 				. '?labels=bug&title=[Bug]+&body='
 				. rawurlencode(
-					"**Page URL:**\n" . esc_url_raw( ( is_ssl() ? 'https' : 'http' ) . '://' . sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ?? '' ) ) . sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) ) . "\n\n"
+					"**Page URL:**\n" . esc_url_raw( home_url( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '/' ) ) ) ) . "\n\n"
 					. "**Describe the bug:**\n\n"
 					. "**Steps to reproduce:**\n1. \n2. \n\n"
 					. "**Expected behaviour:**\n\n"
@@ -72,10 +72,88 @@
 (function(){
 	var btn = document.getElementById('lt-dark-toggle');
 	if (!btn) return;
+	var clicks = [], doomReady = false;
+
 	btn.addEventListener('click', function(){
 		var isDark = document.body.classList.toggle('lt-dark');
 		localStorage.setItem('lt-dark', isDark ? '1' : '0');
+		if (doomReady) return;
+
+		var now = Date.now();
+		clicks.push(now);
+		clicks = clicks.filter(function(t){ return now - t < 3500; });
+
+		if (clicks.length >= 6) {
+			doomReady = true;
+			clicks = [];
+			/* screen glitch then launch */
+			document.body.classList.add('lt-glitch');
+			var n = 0, iv = setInterval(function(){
+				document.body.classList.toggle('lt-dark');
+				if (++n >= 12) {
+					clearInterval(iv);
+					document.body.classList.remove('lt-glitch');
+					document.body.classList.add('lt-dark');
+					localStorage.setItem('lt-dark','1');
+					openDoom();
+				}
+			}, 60);
+		}
 	});
+
+	function openDoom(){
+		if (window.innerWidth < 800) { doomReady = false; return; }
+		var themeDir = <?php echo wp_json_encode( get_stylesheet_directory_uri() ); ?>;
+		var o = document.createElement('div');
+		o.id = 'lt-doom';
+		o.style.cssText = 'position:fixed;inset:0;z-index:999999;background:#000;display:flex;flex-direction:column;opacity:1';
+		o.innerHTML =
+			'<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 16px;background:#1a0000;border-bottom:2px solid #a42325;flex-shrink:0">' +
+				'<span style="color:#a42325;font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:3px">DOOM &mdash; Knee Deep in the Dead</span>' +
+				'<button id="lt-doom-x" style="background:none;border:0;color:#a42325;font-size:26px;cursor:pointer;padding:0 4px;line-height:1" aria-label="Close">\u00d7</button>' +
+			'</div>' +
+			'<div id="lt-doom-stage" style="flex:1;overflow:hidden;background:#000;display:flex;align-items:center;justify-content:center">' +
+				'<div id="lt-doom-loading" style="color:#a42325;font-family:Barlow Condensed,sans-serif;font-size:18px;letter-spacing:4px;text-transform:uppercase;position:absolute;z-index:2">Loading DOOM...</div>' +
+				'<canvas id="lt-doom-canvas" tabindex="0" style="image-rendering:pixelated"></canvas>' +
+			'</div>';
+
+		/* inject overrides for js-dos v6 container */
+		var fix = document.createElement('style');
+		fix.textContent =
+			'#lt-doom-stage .dosbox-container{max-width:100%!important;max-height:100%!important;aspect-ratio:4/3!important;width:auto!important;height:100%!important}' +
+			'#lt-doom-stage .dosbox-overlay{width:100%!important;height:100%!important;opacity:0!important}' +
+			'#lt-doom-stage .dosbox-start{display:none!important}' +
+			'#lt-doom-stage canvas{width:100%!important;height:100%!important;image-rendering:pixelated!important}';
+		document.head.appendChild(fix);
+		document.documentElement.appendChild(o);
+
+		document.getElementById('lt-doom-x').onclick = function(){ o.remove(); fix.remove(); doomReady = false; };
+
+		/* load js-dos v6 engine */
+		var sc = document.createElement('script');
+		sc.src = themeDir + '/assets/doom/js-dos.js';
+		sc.onload = function(){
+			var cvs = document.getElementById('lt-doom-canvas');
+			Dos(cvs, { wdosboxUrl: themeDir + '/assets/doom/wdosbox.js' }).ready(function(fs, main){
+				fs.extract(themeDir + '/assets/doom/doom_v6.zip').then(function(){
+					var ld = document.getElementById('lt-doom-loading');
+					if (ld) ld.remove();
+					main(['-conf', 'dosbox.conf']);
+					setTimeout(function(){
+						var ov = document.querySelector('#lt-doom-stage .dosbox-overlay');
+						if (ov) { ov.click(); ov.focus(); }
+						cvs.focus();
+					}, 500);
+				});
+			});
+		};
+		document.head.appendChild(sc);
+
+		/* prevent browser from hijacking game keys while overlay is open */
+		o.addEventListener('keydown', function(e){
+			if ([32,37,38,39,40,17,16].indexOf(e.keyCode) !== -1) e.preventDefault();
+		}, true);
+	}
 })();
 </script>
 <?php wp_footer(); ?>
