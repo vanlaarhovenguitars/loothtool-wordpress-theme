@@ -2774,3 +2774,85 @@ body.lt-dark .lt-reviews-body li { color: #ddeae6 !important; }
 }
 .lt-bug-report:hover { color: rgba(111,185,143,0.7); }
 .lt-bug-report svg { flex-shrink: 0; opacity: 0.6; }
+
+/* ============================================================
+   DOOM Easter Egg Overlay
+   ============================================================ */
+#lt-doom-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+}
+#lt-doom-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: #1a1a1a;
+  border-bottom: 2px solid #a42325;
+  flex-shrink: 0;
+}
+#lt-doom-title {
+  color: #a42325;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+#lt-doom-close {
+  background: none;
+  border: 1px solid #555;
+  color: #fff;
+  font-size: 1.4rem;
+  line-height: 1;
+  padding: 4px 10px;
+  cursor: pointer;
+  border-radius: 0;
+  transition: background 0.15s, border-color 0.15s;
+}
+#lt-doom-close:hover {
+  background: #a42325;
+  border-color: #a42325;
+}
+#lt-doom-loading {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ccc;
+  font-family: 'Inter', sans-serif;
+  gap: 12px;
+}
+.lt-doom-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #333;
+  border-top-color: #a42325;
+  border-radius: 50%;
+  animation: lt-doom-spin 0.8s linear infinite;
+}
+@keyframes lt-doom-spin {
+  to { transform: rotate(360deg); }
+}
+.lt-doom-hint {
+  font-size: 0.75rem;
+  color: #666;
+}
+#lt-doom-container {
+  flex: 1;
+  min-height: 0;
+}
+#lt-doom-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+#lt-doom-container .dosbox-container {
+  width: 100% !important;
+  height: 100% !important;
+}

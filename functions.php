@@ -88,6 +88,20 @@ function lt_enqueue_search_autocomplete() {
 add_action( 'wp_enqueue_scripts', 'lt_enqueue_search_autocomplete', 20 );
 
 /**
+ * Enqueue DOOM easter egg JS on all pages.
+ */
+function lt_enqueue_doom_easter_egg() {
+	wp_enqueue_script(
+		'lt-doom-easter-egg',
+		get_stylesheet_directory_uri() . '/assets/doom-easter-egg.js',
+		[],
+		HELLO_ELEMENTOR_CHILD_VERSION,
+		true
+	);
+}
+add_action( 'wp_enqueue_scripts', 'lt_enqueue_doom_easter_egg', 20 );
+
+/**
  * AJAX handler: return up to 6 products matching the search query.
  */
 function lt_ajax_search_products() {
